@@ -1,0 +1,398 @@
+@charset "UTF-8";
+/*giao diện danh sách*/
+.master-buttonedit, .master-buttondelete {
+	text-decoration: none !important; /* Không gạch chân liên kết */
+	color: #fff; /* Màu chữ trắng */
+	padding: 10px;
+	border-radius: 4px; /* Bo góc cho nút */
+	display: inline-block; /* Để các nút nằm ngang nhau */
+	text-align: center; /* Căn giữa chữ */
+	font-size: 13px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: background-color 0.3s, transform 0.3s;
+	font-family: 'Arial', sans-serif;
+}
+
+.master-buttonedit {
+	background-color: #007BFF;
+}
+
+.master-buttonedit:hover {
+	background-color: #0056b3;
+	transform: scale(1.05);
+	color: white;
+}
+
+.master-buttondelete {
+	background-color: #dc3545; /* Màu nền đỏ cho nút xóa */
+}
+
+.master-buttondelete:hover {
+	background-color: #c82333;
+	transform: scale(1.05);
+	color: white;
+}
+
+.master-title {
+	text-align: center;
+}
+
+.master-list {
+	padding: 10px
+}
+
+th, td {
+	border-top: 1px solid #ddd;
+	padding: 8px;
+	text-align: left;
+	text-align: center;
+	font-family: 'Arial', sans-serif;
+}
+
+th:last-child {
+	border-right: 1px solid #ddd;
+}
+
+tr {
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+	background-color: #ddd;
+}
+
+.button-add {
+	padding: 10px;
+}
+
+.button-add a:hover {
+	background-color: #0056b3;
+	color: white;
+}
+
+.button-add a {
+	background-color: #007BFF;
+	text-decoration: none !important;
+	color: #fff;
+	width: 200px;
+	padding: 10px;
+	border-radius: 4px; /* Bo góc cho nút */
+	display: inline-block; /* Để các nút nằm ngang nhau */
+	text-align: center; /* Căn giữa chữ */
+	font-size: 13px;
+	font-weight: bold;
+	cursor: pointer;
+	font-family: 'Arial', sans-serif;
+	transition: background-color 0.3s, transform 0.3s;
+}
+
+.add-category {
+	padding-left: 10px;
+	padding-top: 20px;
+}
+
+.add-category input[type="text"] {
+	width: 42%;
+	padding: 10px; /* Padding để tạo không gian bên trong trường nhập */
+	border: 1px solid #ccc; /* Đường viền xám nhạt */
+	border-radius: 4px;
+	font-size: 14px; /* Kích thước chữ */
+	color: #333;
+	box-sizing: border-box;
+	margin-bottom: 10px;
+	/
+}
+
+.add-category input[type="submit"] {
+	background-color: #007BFF;
+	color: #fff;
+	border: none; /* Không có đường viền */
+	padding: 10px 20px; /* Padding trên/dưới và trái/phải */
+	border-radius: 4px;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+/* Hiệu ứng khi di chuột qua nút gửi */
+.add-category input[type="submit"]:hover {
+	background-color: #0056b3; /* Màu nền khi di chuột qua */
+}
+
+/*css trang sửa */
+.master-edit {
+	display: flex;
+	justify-content: center;
+	padding: 30px;
+}
+
+.form-edit {
+	padding: 10px;
+}
+
+.form-edit label {
+	font-family: 'Arial', sans-serif;
+}
+
+.form-edit input {
+	width: 663px;
+	padding: 10px;
+	font-family: 'Arial', sans-serif;
+}
+
+.form-edit textarea {
+	width: 663px;
+	padding: 10px;
+	font-family: 'Arial', sans-serif;
+}
+
+.button-edit {
+	background-color: #007BFF;
+	color: #fff;
+	border: none; /* Không có đường viền */
+	padding: 10px 20px;
+	border-radius: 4px;
+	font-size: 18px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	width: 500px;
+}
+
+.button-edit:hover {
+	background-color: #0056b3;
+}
+
+.size-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	width: 663px;
+	margin: 0 auto;
+}
+
+.size-item {
+	width: calc(( 663px/ 7)- 10px);
+	margin-bottom: 5px;
+	/* Khoảng cách giữa các hàng */
+	box-sizing: border-box;
+	margin-bottom: 5px;
+	/* Đảm bảo padding và border không làm thay đổi kích thước */
+}
+
+.master-add .size-container input {
+	width: 80px;
+}
+
+/*css trang thêm*/
+.master-add {
+	display: flex;
+	justify-content: center;
+}
+
+.master-add input {
+	width: 663px;
+	padding: 10px;
+	font-family: 'Arial', sans-serif;
+}
+
+.master-add select {
+	width: 663px;
+	font-family: 'Arial', sans-serif;
+	height: 43px;
+}
+
+.master-add textarea {
+	width: 663px;
+	padding: 10px;
+	font-family: 'Arial', sans-serif;
+}
+
+.master-add input {
+	width: 663px;
+	padding: 10px;
+	font-family: 'Arial', sans-serif;
+}
+
+.master-add input[type=file] {
+	padding: 0px;
+}
+
+/* Style cho hình ảnh xem trước */
+.preview-img {
+	max-width: 300px;
+	max-height: 200px;
+	margin-top: 10px;
+	display: block;
+}
+
+.preview-container {
+	margin-top: 10px;
+}
+
+.form-group {
+	margin-bottom: 15px;
+}
+
+.button-edit {
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.button-edit:hover {
+	background-color: #0056b3;
+}
+/* phần phân trang css*/
+.list-table {
+	margin: 0 auto;
+	padding-top: 20px;
+	right: 0px;
+}
+
+table {
+	width: 100%;
+	max-width: 100%;
+	border-collapse: collapse;
+	table-layout: auto; /* Có thể thay bằng table-layout: fixed; */
+	overflow-x: auto;
+}
+
+.tblcustom th, .tblcustom td {
+	padding: 10px;
+	text-align: left;
+	border: 1px solid #ddd;
+}
+
+.pagination {
+	display: flex;
+	margin-top: 20px;
+	justify-content: center;
+}
+
+.pagination a, .pagination span {
+	margin: 0 5px;
+	padding: 8px 12px;
+	text-decoration: none;
+	color: #333;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
+
+.pagination a:hover {
+	background-color: #f4f4f4;
+}
+
+.pagination .current {
+	font-weight: bold;
+	color: #007bff;
+	border: 1px solid #007bff;
+	background-color: #e9ecef;
+}
+
+.preview-container img {
+	width: 50%; /* Chiều rộng 50% để hiển thị 2 ảnh trên 1 dòng */
+	max-width: 255px; /* Chiều rộng tối đa của hình ảnh */
+	margin: 5px; /* Khoảng cách giữa các hình ảnh */
+}
+/*css trang sửa sản phâtrm*/
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f4f4f4;
+	margin: 0;
+	padding: 0;
+}
+
+.container-pr {
+	width: 60%;
+	max-width: 1000px;
+	margin: 20px auto;
+	padding: 20px;
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+	text-align: center;
+	color: #333;
+}
+
+.form-groupedit {
+	margin-bottom: 15px;
+}
+
+.form-groupedit label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.form-groupedit input[type="text"], .form-groupedit input[type="number"],
+	.form-groupedit input[type="file"], .form-groupedit select,
+	.form-groupedit textarea {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
+
+.form-groupedit textarea {
+	resize: vertical;
+}
+
+.form-groupedit button {
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	text-align: center;
+	display: inline-block;
+	font-size: 16px;
+	margin-top: 10px;
+	cursor: pointer;
+	border-radius: 4px;
+	width: 100%;
+}
+
+.form-groupedit button:hover {
+	background-color: #45a049;
+}
+
+.current-images {
+	margin-top: 15px;
+}
+
+.current-images img, .preview-images img {
+	max-width: 158px;
+	margin: 5px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
+
+.size-quantity-list {
+	margin-top: 20px;
+}
+
+.size-quantity-item {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	background-color: #fafafa;
+}
+
+.size-quantity-item input {
+	margin-right: 10px;
+}
+
+.form-groupedit select {
+	padding: 0px;
+}
