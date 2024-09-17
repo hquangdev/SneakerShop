@@ -18,9 +18,11 @@
 			</ul>
 
 			<hr class="soft" />
+			
+			<a href="<c:url value="checkoutVn"/>">Thanh toán bằng VN - Pay</a>
 			<div class="well">
 			<form:form method="post" action="checkout" modelAttribute="bills">
-					<h3>Thoong tin thanh toan</h3>
+					<h3>Thanh toán khi nhận hàng</h3>
 					<div class="control-group">
 						<label class="control-label">Email <sup>*</sup></label>
 						<div class="controls">
@@ -50,7 +52,6 @@
 						</div>
 					</div>
 					
-					</div>
 					<div class="control-group">
 						<label class="control-label">Ghi chú <sup>*</sup></label>
 						<div class="controls">

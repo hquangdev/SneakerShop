@@ -6,7 +6,7 @@
 <div class="pagination">
     <!-- Previous Page Link -->
     <c:if test="${currentPage > 1}">
-        <a href="${baseUrl}?page=${currentPage - 1}&size=${pageSize}">Trang trước</a>
+        <a href="${baseUrl}?page=${currentPage - 1}&size=${pageSize}">&#9664;</a>
     </c:if>
     <c:if test="${currentPage <= 1}">
        <a class="disabled">&#9664;</a> <!-- Mũi tên phải đầy đủ -->
@@ -25,7 +25,7 @@
 
     <!-- Next Page Link -->
     <c:if test="${currentPage < totalPages}">
-        <a href="${baseUrl}?page=${currentPage + 1}&size=${pageSize}">Trang sau</a>
+        <a href="${baseUrl}?page=${currentPage + 1}&size=${pageSize}">&#9654;</a>
     </c:if>
     <c:if test="${currentPage >= totalPages}">
         <a class="disabled">&#9654;</a> 

@@ -27,67 +27,85 @@ public class BillsContronller extends BaseAdminController{
 	
 	@Autowired
 	BillsDao billDao;
-	@RequestMapping("/manager-bill")
-	public ModelAndView getAllBill(){
-		
-		List<Bills> ListBill = 	billService.getAllBil();		
-		_mvAdmin.addObject("listBill", ListBill);
-		_mvAdmin.setViewName("/admin/Bills/list");
-		return _mvAdmin;
-
-	}
+//	@RequestMapping("/manager-bill")
+//	public ModelAndView getAllBill(){
+//		
+//		List<Bills> ListBill = 	billService.getAllBil();		
+//		_mvAdmin.addObject("listBill", ListBill);
+//		_mvAdmin.setViewName("/admin/Bills/list");
+//		return _mvAdmin;
+//
+//	}
 	
 	//xóa hóa đơn
-		@RequestMapping("/delete-bill/{id}")
+		@RequestMapping("/manager-bill/delete/{id}")
 	    public ModelAndView deleteBill(@PathVariable("id") int id) {
 	        billService.deleteBill(id);
 
-	         _mvAdmin.setViewName("redirect:/admin/management-bill"); 
+	         _mvAdmin.setViewName("redirect:/admin/manager-bill"); 
 	  
 	        return _mvAdmin;
 	    }
 		
-	//lấy theo id
-	  @RequestMapping("/manager-bill/view-detail/{id}")
-	  public ModelAndView getBillDetailByID(@PathVariable("id") long id_bills) {
-        BillDetailDTO billDetail = billService.getBillDetailByID(id_bills);
-        _mvAdmin.addObject("billdetail", billDetail);
+	//trả về trang chi tiết bill
+		   @RequestMapping(value = "/manager-bill/view-detail/{id}", method = RequestMethod.GET)
+		    public ModelAndView viewBillDetails(@PathVariable("id") long id_bills) {
+		        // Gọi service để lấy danh sách chi tiết hóa đơn theo id_bills
+		        List<BillDetailDTO> listBillDetails = billService.getBillDetailByID(id_bills);
 
-        _mvAdmin.setViewName("/admin/Bills/BillDetail");
-		return _mvAdmin;
-        
-	}
+		        // Tạo ModelAndView và cấu hình tên view
+		        ModelAndView mv = new ModelAndView("/admin/Bills/listDetail");
+		        mv.addObject("listBill", listBillDetails);
+
+		        return mv;
+		    }
 	  
-	  @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
+		   // cập nhật trạng thái
+	  @RequestMapping(value = "/manager-bill/view-detail/updateStatus", method = RequestMethod.POST)
 	  public String updateStatus(@RequestParam("id") long id, @RequestParam("status") int status) {
-		  billService.updateStatus(id, status);
-		  
-		  return "redirect:/admin/manager-bill";
+		  if (id <= 0 || (status != 1 && status != 2)) {
+		        // Xử lý lỗi ở đây
+		        return "redirect:/admin/manager-bill?error=invalidParameters";
+		    }
+		    billService.updateStatus(id, status);
+		    return "redirect:/admin/manager-bill";
 	  }
-//	// phân trang danh mục
-//		@GetMapping("/manager-category")
-//		public ModelAndView listSlide(
-//		        @RequestParam(defaultValue = "1") int page,
-//		        @RequestParam(defaultValue = "8") int size) {
-//
-//		    // Tính toán trang bắt đầu và số lượng mục mỗi trang
-//		    int pageNumber = page <= 0 ? 1 : page;
-//		    int pageSize = size <= 0 ? 8 : size;
-//
-//		    // Lấy dữ liệu phân trang từ DAO
-//		    List<BillsDao> category = billDao.getSlideWithPagination(pageNumber, pageSize);
-//
-//		    // Đếm tổng số slide để hiển thị số trang và điều hướng phân trang
-//		    int totalSlide = billDao.getTotalCategoryCount();
-//		    int totalPages = (int) Math.ceil((double) totalSlide / pageSize);
-//
-//		    // Tạo ModelAndView và thêm dữ liệu vào mô hình
-//		    _mvAdmin.setViewName("admin/category/list");
-//		    _mvAdmin.addObject("category", category);
-//		    _mvAdmin.addObject("currentPage", pageNumber);
-//		    _mvAdmin.addObject("totalPages", totalPages);
-//		    _mvAdmin.addObject("pageSize", pageSize);
-//
-//		    return _mvAdmin;
-//		}
+	  
+	  //nút bấm quay trở lại
+		@RequestMapping("/manager-bill/view-detail/bill")
+		public ModelAndView retu(){
+			
+			List<Bills> ListBill = 	billService.getAllBil();		
+			_mvAdmin.addObject("listBill", ListBill);
+			_mvAdmin.setViewName("/admin/Bills/list");
+			return _mvAdmin;
+
+		}
+		
+	// phân trang 
+		@GetMapping("/manager-bill")
+		public ModelAndView Pagination(
+		        @RequestParam(defaultValue = "1") int page,
+		        @RequestParam(defaultValue = "8") int size) {
+
+		    // Tính toán trang bắt đầu và số lượng mục mỗi trang
+		    int pageNumber = page <= 0 ? 1 : page;
+		    int pageSize = size <= 0 ? 8 : size;
+
+		    // Lấy dữ liệu phân trang từ DAO
+		    List<Bills> ListBill = billDao.getBillWithPagination(pageNumber, pageSize);
+
+		    // Đếm tổng số slide để hiển thị số trang và điều hướng phân trang
+		    int totalbill = billDao.getTotalBillCount();
+		    int totalPages = (int) Math.ceil((double) totalbill / pageSize);
+
+		    // Tạo ModelAndView và thêm dữ liệu vào mô hình
+		    _mvAdmin.setViewName("/admin/Bills/list");
+		    _mvAdmin.addObject("listBill", ListBill);
+		    _mvAdmin.addObject("currentPage", pageNumber);
+		    _mvAdmin.addObject("totalPages", totalPages);
+		    _mvAdmin.addObject("pageSize", pageSize);
+
+		    return _mvAdmin;
+		}
 	}

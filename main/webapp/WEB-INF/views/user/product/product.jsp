@@ -65,21 +65,22 @@ Body Section
 						        </label>
 						    </div>
 						
-						    <div class="control-group">
-						        <label class="control-label"><span>Chọn số lượng</span></label>
-						        <div class="controls">
-						            <input type="number" name="quantity" min="1" placeholder="Chọn số lượng" 
-						            required style="width: 178px;">
-						        </div>
-						    </div>
-						
-						    <div class="control-group">
-						        <label class="control-label"><span>Số lượng giày</span></label>
-						        <div class="controls">
-						            <input type="number" id="quantityInput" style="width: 178px;" readonly>
-						            <p id="stockStatus"></p>
-						        </div>
-						    </div>
+						   <div class="control-group">
+							    <label class="control-label"><span>Chọn số lượng</span></label>
+							    <div class="controls">
+							        <input type="number" id="quantityInput" name="quantity" min="1" placeholder="Chọn số lượng" 
+							        required style="width: 178px;">
+							    </div>
+							</div>
+							
+							<div class="control-group">
+							    <label class="control-label"><span>Số lượng giày</span></label>
+							    <div class="controls">
+							        <input type="number" id="stockQuantityInput" style="width: 178px;" readonly>
+							        <p id="stockStatus"></p>
+							    </div>
+							</div>
+
 						
 						    <div class="control-group">
 						        <label class="control-label"><span>Chọn kích cỡ</span></label>
@@ -95,7 +96,7 @@ Body Section
 						    <h4>${productDTO.title }</h4>
 						    <p>$ }<p>
 						
-						    <button type="submit" class="shopBtn">
+						    <button type="submit" id="addToCartBtn" class="shopBtn">
 						        <span class="icon-shopping-cart"></span> Thêm vào giỏ hàng
 						    </button>
 						</form>
@@ -106,8 +107,9 @@ Body Section
 
 
 				<ul id="productDetail" class="nav nav-tabs">
-					<li class="active"><a href="#home" data-toggle="tab">Chi tiết sản phẩm
-							</a></li>
+					<li class="active">
+						<a href="#home" data-toggle="tab">Chi tiết sản phẩm </a>
+					</li>
 					<li class=""><a href="#profile" data-toggle="tab">Sản phẩm liên quan
 							 </a></li>
 			
@@ -142,7 +144,7 @@ Body Section
 									<div class="btn-group">
 										<a href="<c:url value='/Addcart/${itemLQ.id_product }'/>" class="defaultBtn"><span
 											class=" icon-shopping-cart"></span> Thêm vào giỏ hàng</a> 
-											<a href="<c:url value='/product-detail/${itemLQ.id_product }'/>" class="shopBtn">VIEW</a>
+										<a href="<c:url value='/product-detail/${itemLQ.id_product }'/>" class="shopBtn">VIEW</a>
 											
 									</div>
 								</form>
@@ -161,37 +163,48 @@ Body Section
 	</div>
 	
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const sizeSelect = document.getElementById('sizeSelect');
-            const quantityInput = document.getElementById('quantityInput');
-            const stockStatus = document.getElementById('stockStatus');
+    document.addEventListener('DOMContentLoaded', function() {
+        const sizeSelect = document.getElementById('sizeSelect');
+        const stockQuantityInput = document.getElementById('stockQuantityInput');
+        const quantityInput = document.getElementById('quantityInput');
+        const stockStatus = document.getElementById('stockStatus');
+        const addToCartBtn = document.getElementById('addToCartBtn');
 
-            // Dữ liệu từ JSP
-            const sizeQuantities = {
-                <c:forEach var="size" items="${productDTO.productsize}">
-                    '${size.sizes}': ${size.quantity},
-                </c:forEach>
-            };
+        // Dữ liệu từ JSP
+        const sizeQuantities = {
+            <c:forEach var="size" items="${productDTO.productsize}">
+                '${size.sizes}': ${size.quantity},
+            </c:forEach>
+        };
 
-            function updateQuantity() {
-                const selectedSize = sizeSelect.value;
-                const quantity = sizeQuantities[selectedSize] || 0;
+        function updateQuantity() {
+            const selectedSize = sizeSelect.value;
+            const quantity = sizeQuantities[selectedSize] || 0;
 
-                if (quantity > 0) {
-                    quantityInput.value = quantity;
-                    stockStatus.textContent = '';
-                } else {
-                    quantityInput.value = '';
-                    stockStatus.textContent = 'Hết hàng';
-                    stockStatus.style.color = 'red';
-                }
+            if (quantity > 0) {
+                stockQuantityInput.value = quantity;
+                stockStatus.textContent = '';
+                quantityInput.removeAttribute('disabled'); // Bỏ thuộc tính disabled
+                quantityInput.setAttribute('placeholder', 'Chọn số lượng'); // Đặt lại placeholder
+                addToCartBtn.disabled = false; // Kích hoạt nút "Thêm vào giỏ hàng"
+                addToCartBtn.textContent = 'Thêm vào giỏ hàng'; // Đặt lại văn bản của nút
+            } else {
+                stockQuantityInput.value = '';
+                stockStatus.textContent = 'Hết hàng';
+                stockStatus.style.color = 'red';
+                quantityInput.setAttribute('disabled', 'true'); // Thêm thuộc tính disabled
+                quantityInput.setAttribute('placeholder', 'Hết hàng'); // Đặt placeholder cho hết hàng
+                addToCartBtn.disabled = true; // Cấm nút "Thêm vào giỏ hàng"
+                addToCartBtn.textContent = 'Hết hàng'; // Đổi văn bản của nút để thông báo hết hàng
             }
+        }
 
-            sizeSelect.addEventListener('change', updateQuantity);
+        sizeSelect.addEventListener('change', updateQuantity);
 
-            // Cập nhật thông tin ngay khi trang được tải
-            updateQuantity();
-        });
-    </script>
+        // Cập nhật thông tin ngay khi trang được tải
+        updateQuantity();
+    });
+</script>
+
 </body>
 </html>

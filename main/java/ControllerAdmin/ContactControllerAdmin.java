@@ -14,6 +14,7 @@ import SneakerShop.Entity.Contact;
 @Controller
 @RequestMapping("/admin")
 public class ContactControllerAdmin extends BaseAdminController {
+	
 	@RequestMapping(value="/management-contact")
 	public ModelAndView GetAllContact() {
 		_mvAdmin.addObject("contact", contactSv.getAllContact());

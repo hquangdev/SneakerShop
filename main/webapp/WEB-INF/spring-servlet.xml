@@ -12,7 +12,7 @@
 
     <!-- Bật cấu hình tự động tìm kiếm các thành phần của Spring -->
     <context:component-scan base-package="ControllerAdmin, ControllerUser, Service.user, AdminService, 
-    SneakerShopDAO, AdminDAO"/>
+       SneakerShopDAO, AdminDAO"/>
     
      <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	    <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
@@ -21,14 +21,13 @@
 	    <property name="password" value=""/>
 	</bean>
 
-
+		
+	<mvc:annotation-driven />
+	
     <!-- Cấu hình JdbcTemplate -->
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
         <property name="dataSource" ref="dataSource"/>
     </bean>
-
-    <!-- Cấu hình MVC -->
-    <mvc:annotation-driven />
 
     <!-- Cấu hình view resolver cho JSP -->
     <bean

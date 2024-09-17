@@ -17,10 +17,10 @@
 			</h2>
 			<hr class="soften" />
 
-			<table class="table table-bordered table-condensed">
+			<table class="table table-bordered table-cart">
 				<thead>
 					<tr>
-						<th>Hình ảnh</th>
+						<th >Hình ảnh</th>
 						<th>Sản phẩm</th>
 						<th>Kích thước(size)</th>
 						<th>Số lượng</th>

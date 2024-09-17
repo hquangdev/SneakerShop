@@ -58,11 +58,11 @@ public class UserControllerAdmin extends BaseAdminController{
 	@GetMapping("/management-client")
 	public ModelAndView listSlide(
 	        @RequestParam(defaultValue = "1") int page,
-	        @RequestParam(defaultValue = "8") int size) {
+	        @RequestParam(defaultValue = "10") int size) {
 
 	    // Tính toán trang bắt đầu và số lượng mục mỗi trang
 	    int pageNumber = page <= 0 ? 1 : page;
-	    int pageSize = size <= 0 ? 8 : size;
+	    int pageSize = size <= 0 ? 10 : size;
 
 	    // Lấy dữ liệu phân trang từ DAO
 	    List<Clients> client = clientDao.getSlideWithPagination(pageNumber, pageSize);

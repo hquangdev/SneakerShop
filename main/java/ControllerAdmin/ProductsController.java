@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +17,19 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import AdminDAO.productDAO;
 import AdminDTO.ProductDTO;
 import AdminEntity.ProductSize;
+import AdminEntity.products;
+import SneakerShop.Entity.Categorys;
+import SneakerShop.Entity.Slides;
 
 @RequestMapping("/admin")
 @Controller
 public class ProductsController extends BaseAdminController {
+	
+	@Autowired
+	productDAO productDao;
 	
 	// lấy giữ liệu in ra list
 	@RequestMapping(value = "/manager-product", method = RequestMethod.GET)
@@ -43,6 +51,7 @@ public class ProductsController extends BaseAdminController {
 	}
 	
 	
+	//thêm sản phẩm
 	@RequestMapping(value = "/addProduct", method = RequestMethod.POST)
 	public String addPr(
 	        @RequestParam("id_category") int id_category,
@@ -158,9 +167,7 @@ public class ProductsController extends BaseAdminController {
 		          @RequestParam("title") String title,
 		          @RequestParam("details") String details,
 		          Model model) throws IOException {
-			  
-			  System.out.println(img);
-		
+			  		
 		// Chuyển đổi dữ liệu từ các tham số thành danh sách ProductSize
 		List<ProductSize> productSizeList = convertToProductSizeList(sizes, quantity, id_productsize, id_tablesize);
 		
@@ -169,5 +176,40 @@ public class ProductsController extends BaseAdminController {
 		
 		return "redirect:/admin/manager-product";
 		}
+		  
+		  
+		  
+		  //phần tìm theo tên sản phẩm
+		  
+		  
+//		//phân trang 
+//			@GetMapping("/manager-product")
+//			public ModelAndView PanigationProducts(
+//			        @RequestParam(defaultValue = "1") int page,
+//			        @RequestParam(defaultValue = "10") int size) {
+//
+//			    // Tính toán trang bắt đầu và số lượng mục mỗi trang
+//			    int pageNumber = page <= 0 ? 1 : page;
+//			    int pageSize = size <= 0 ? 10 : size;
+//
+//			    // Lấy dữ liệu phân trang từ DAO
+//			    List<ProductDTO> product = productDao.getSlideWithPagination(pageNumber, pageSize);
+//			    
+//			    // Đếm tổng số slide để hiển thị số trang và điều hướng phân trang
+//			    int totalProducts = productDao.getTotalSlideCount();
+//			    int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
+//
+//			    // Tạo ModelAndView và thêm dữ liệu vào mô hình
+//			    _mvAdmin.setViewName("admin/products/list");
+//			    _mvAdmin.addObject("productDto", product);
+//			   
+//			    _mvAdmin.addObject("categories", categorySv.GetAllCategory());
+//			    _mvAdmin.addObject("currentPage", pageNumber);
+//			    _mvAdmin.addObject("totalPages", totalPages);
+//			    _mvAdmin.addObject("pageSize", pageSize);
+//
+//			    return _mvAdmin;
+//			}
+
 
 }

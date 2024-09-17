@@ -8,9 +8,9 @@
 			<div class="row">
 				<div class="span4">
 					<h1>
-						<a class="logo" href="index.html"><span>Twitter Bootstrap ecommerce template</span>
+						<a class="logo" href="<c:url value='home-page'/>"><span></span>
 								 
-							<img src="assets/img/logo-bootstrap-shoping-cart.png" alt=" shop"> </a>
+							<img src="<c:url value='assets/user/img/logo-bootstrap-shoping-cart.png'/>" alt=" shop"> </a>
 							
 					</h1>
 				</div>
@@ -51,10 +51,13 @@ Navigation Bar Section
 							<li class=""><a href="<c:url value='/contact'/>">Liên hệ</a></li>
 							<li class=""><a href="#">Bài viết</a></li>
 						</ul>
-						<form action="search-product/${keyword }" method="get" class="navbar-search pull-left">
-							<input type="text" placeholder="Tìm kiếm" class="search-query span2" >
-							<input type="submit" value="Tim">
-								
+						<form action="search" method="post" class="navbar-search pull-left">
+							<input type="text" name="query" placeholder="Tìm kiếm" class="search-query span2" >
+							<input type="submit" value="Tìm"> <br>
+							<c:if test="${not empty statusMessage}">
+							    <p>${statusMessage}</p>
+							</c:if>
+
 						</form>
 						<ul class="nav pull-right">
 						<c:if test="${ empty LoginInfo }">

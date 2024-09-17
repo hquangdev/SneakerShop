@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thêm Slide Mới</title>
-    <style>
-       
-    </style>
-</head>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <body>
     <h2 class="master-title">Trang thêm nhân viên</h2>
+
+    <!-- Hiển thị thông báo lỗi nếu có -->
+    <c:if test="${not empty status}">
+        <p class="error-message">${status}</p>
+    </c:if>
+
 
     <div class="master-add">
         <form method="post" action="addPersonnel">
@@ -34,14 +34,15 @@
                 <input type="text" id="phone" name="phone" required>
             </div>
             
-            <div class="form-group">
-                <label for="role">Chức vụ</label>  <br>
-                <select required="required">
-                	<option value="0">Chọn chức vụ</option>
-                	<option value="1">Quản lí</option>
-                	<option value="0">Nhân viên</option>
-                </select>
-            </div>
+           <div class="form-group">
+			    <label for="role">Chức vụ</label>  <br>
+			    <select name="role" id="role" required="required">
+			        <option value="">Chọn chức vụ</option>
+			        <option value="1">Quản lý</option>
+			        <option value="2">Nhân viên</option>
+			    </select>
+			</div>
+
             
             <div class="form-group">
                 <label for="address">Địa chỉ</label>  <br>

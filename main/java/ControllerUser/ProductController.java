@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,23 +20,6 @@ import Service.user.IProductService;
 import SneakerShop.Entity.Categorys;
 @Controller
 public class ProductController extends BaseController {
-	@Autowired
-	private IProductService _productService;
-	
-	@Autowired
-	ProductService productsv;
-	 @GetMapping("/search-product")
-	    public String searchProduct(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
-	        List<ProductDTO> products;
-	        if (keyword != null && !keyword.trim().isEmpty()) {
-	            products = productsv.findByNameContaining(keyword);
-	        } else {
-	            products = productsv.getAllProductDto(); // Lấy tất cả sản phẩm nếu không có từ khóa
-	        }
-	        model.addAttribute("listProduct", products);
-	        return "listProduct"; // Tên file JSP hiển thị danh sách sản phẩm
-	    }
-	
 	
 	@RequestMapping(value = { "/product-detail/{id}"})
 	public ModelAndView showFormDetalis(@PathVariable("id") long id_product, Model model) {
@@ -53,6 +37,40 @@ public class ProductController extends BaseController {
 		
 	}
 	
+	
+    @RequestMapping(value = {"/search", "/product-detail/search"}, method = RequestMethod.POST)
+    public String search(@RequestParam("query") String query, Model model) {
+        // Tìm kiếm sản phẩm theo tên chứa chuỗi truy vấn
+        List<ProductDTO> products = productsv.findByNameContaining(query);
+        model.addAttribute("Products", products);
+        model.addAttribute("ProductHighlight", _homService.GetHighlightProduct());
+        model.addAttribute("ProductNew", _homService.GetNewProducts());
+        model.addAttribute("slides", _homService.GetDataSlide());
+        model.addAttribute("categorys", _homService.GetDataCategorys());
+        
+        // Kiểm tra nếu không có sản phẩm nào được tìm thấy
+        if (products.isEmpty()) {
+            model.addAttribute("statusMessage", "Không có sản phẩm nào với tên: " + query);
+        }
 
+        return "user/index";
+    }
+
+
+	
+    @RequestMapping(value = {"/admin/search"}, method = RequestMethod.POST)
+    public String searchAdmin(@RequestParam("keyname") String query, Model model) {
+        // Tìm kiếm sản phẩm theo tên chứa chuỗi truy vấn
+        List<ProductDTO> products = productsv.findByNameContaining(query);
+        model.addAttribute("productDto", products);
+        model.addAttribute("categorys", _homService.GetDataCategorys());
+        
+        // Kiểm tra nếu không có sản phẩm nào được tìm thấy
+        if (products.isEmpty()) {
+            model.addAttribute("error", "Không có sản phẩm nào với tên: " + query);
+        }
+
+        return "admin/products/list";
+    }
 
 }

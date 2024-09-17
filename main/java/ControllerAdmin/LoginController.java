@@ -20,12 +20,12 @@ public class LoginController extends BaseAdminController{
 		
 	@RequestMapping(value = { "/admin" }, method = RequestMethod.GET)
 	public ModelAndView home() {
-		_mvAdmin.setViewName("admin/index");
+		_mvAdmin.setViewName("login");
 		_mvAdmin.addObject("admin", new Admins()); 
 		return _mvAdmin;
 	}
 	 
-	@RequestMapping(value = "/dang-xuat-admin", method = RequestMethod.GET)
+	@RequestMapping(value = "/logout-admin", method = RequestMethod.GET)
 	public ModelAndView logout(HttpSession session) {
 	    // Xóa thông tin người dùng khỏi session
 	    session.removeAttribute("LoginInfo");
@@ -54,6 +54,8 @@ public class LoginController extends BaseAdminController{
         }
     }
 
+    
+    
 
 
 }

@@ -27,8 +27,6 @@ public class CategoryAdminController extends BaseAdminController {
 	@Autowired
 	CategoryServiceImpl categoryService;
 	
-	@Autowired
-	CategorysDAO categoryDao;
 
 //	// chuyển tới danh sách
 //	@RequestMapping(value = ("/manager-category"))

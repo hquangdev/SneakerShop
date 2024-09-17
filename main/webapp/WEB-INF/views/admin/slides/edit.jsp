@@ -5,10 +5,10 @@
 <body>
     <h2 class="master-title">Trang sửa slide</h2>
 
-    <div class=container>
+    <div class=master-edit>
         <form:form method="post" enctype="multipart/form-data" action="slide" modelAttribute="slideAdmin">
         	<form:hidden path="id"/>
-          	<div class="form-group">
+          	<div class="form-edit">
                 <label for="img">Chọn ảnh để sửa</label> <br>
                 <form:input type="file" id="img" path="img" accept="image/*" onchange="previewImage(event)"/>
                 
@@ -17,15 +17,15 @@
                      src="<c:url value='/assets/user/Slide-img/${slideAdmin.img}'/>" alt="Ảnh hiện tại"/>
             	</div>
             </div>
-            <div class="form-group">
+            <div class="form-edit">
                 <label for="caption">Tiêu đề</label>  <br>
                 <form:input type="text" id="caption" path="caption" required="true"/>
             </div>
-            <div class="form-group">
+            <div class="form-edit">
                 <label for="content">Nội dung</label>  <br>
                 <form:textarea id="content" path="content" rows="4" required="true"/>
             </div>
-            <div class="form-group">
+            <div class="form-edit">
                 <button class="button-edit" type="submit">lưu lại</button>
             </div>
         </form:form>

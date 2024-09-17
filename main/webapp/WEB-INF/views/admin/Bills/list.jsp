@@ -29,11 +29,12 @@
 					<td>${item.display_name }</td>
 					<td>${item.phone }</td>
 					<td>${item.quanty }</td>
-					<td>${item.total }</td>
-					<td>${item.status }</td>
-					<td><a class="master-buttonedit" href="<c:url value='/admin/manager-category/edit/${item.id }'/>">Sửa</a></td>
-					
-					<td><a class="master-buttondelete" href="<c:url value='/admin/manager-category/delete/${item.id }'/>">Xóa</a></td>
+					<td><fmt:formatNumber value="${item.total }" type="number" pattern="#,##0" />₫</td>
+					<td>
+					  ${item.status == 1 ? 'Đang xử lý' : item.status == 2 ? 'Đã xử lý' : 'Trạng thái không hợp lệ'}
+					</td>
+					<td><a class="master-buttonedit" href="<c:url value='/admin/manager-bill/view-detail/${item.id }'/>">Xem</a>
+					<a class="master-buttondelete" href="<c:url value='/admin/manager-bill/delete/${item.id }'/>">Xóa</a></td>
 				</tr>
 			</c:forEach>	
 			</tbody>
@@ -41,7 +42,7 @@
 	</div>
 	
 	<jsp:include page="/WEB-INF/views/admin/pagination/master.jsp">
-	    <jsp:param name="baseUrl" value="/manager-category" />
+	    <jsp:param name="baseUrl" value="/manager-bill" />
 	    <jsp:param name="currentPage" value="${currentPage}" />
 	    <jsp:param name="totalPages" value="${totalPages}" />
 	    <jsp:param name="pageSize" value="${pageSize}" />

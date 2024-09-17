@@ -13,12 +13,10 @@
 	</div>
 	
 	<div class="master-title">
-        <c:if test="${not empty message}">
-            <div class="alert">${message}</div>
-        </c:if>
-        <c:if test="${not empty error}">        <!-- Hiển thị thông báo lỗi -->
-            <div class="alert error">${error}</div>
-        </c:if>
+       <!-- Hiển thị thông báo lỗi nếu có -->
+    <c:if test="${not empty status}">
+        <p style="color:red;"><c:out value="${status}"/></p>
+    </c:if>
     </div>
 	
 	<div class="master-list">
@@ -45,7 +43,7 @@
 					<c:if test="${item.role == 1 }">
 						<td>Quản lý</td>
 					</c:if>
-					<c:if test="${item.role == 0 }">
+					<c:if test="${item.role == 2 }">
 						<td>Nhân viên</td>
 					</c:if>
 					

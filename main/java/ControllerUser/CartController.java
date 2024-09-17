@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.stripe.model.PaymentIntent;
+
 import AdminDAO.productDAO;
 import AdminDTO.ProductDTO;
+import AdminService.PaymentService;
 import AdminService.ProductService;
 import Service.user.BillsServiceImpl;
 import Service.user.CartServiceImpl;
@@ -40,6 +44,12 @@ public class CartController extends BaseController{
 	private ProductService productsv;
 	
 	@Autowired CartDAO cartDao;
+	
+//	@Autowired
+//	private PaymentService paymentService;
+
+    @Value("${stripe.api.key}")
+    private String apiKey;
 	
 	//chuyển tới trang giỏ hàng
 	@RequestMapping(value = { "/cart" })
@@ -85,9 +95,8 @@ public class CartController extends BaseController{
 
 	    // Lưu thông tin vào session
 	    session.setAttribute("cart", cart);
-	    session.setAttribute("TotalPriceCart", totalPriceCart);
 	    session.setAttribute("TotalQuantyCart", totalQuantityCart);
-	    session.setAttribute("TotalSalePrice", totalSalePrice); // Lưu tỷ lệ giảm giá vào session
+	    session.setAttribute("TotalSalePrice", totalSalePrice);
 
 	    return "redirect:" + request.getHeader("referer");
 	}
@@ -130,10 +139,10 @@ public class CartController extends BaseController{
 	    // Khởi tạo ModelAndView
 	    _mvShare.setViewName("user/account/checkout");
 	    
-	    Users loginUser = (Users) session.getAttribute("LoginInfo");// Lấy thông tin người dùng từ session
+	    Users loginUser = (Users) session.getAttribute("LoginInfo");
 
 	    if (loginUser == null) {
-	        _mvShare.setViewName("redirect:/dang-ky");
+	        _mvShare.setViewName("redirect:/register");
 	        _mvShare.addObject("message", "Bạn cần đăng nhập để thực hiện thanh toán.");
 	        return _mvShare;
 	    }
@@ -158,74 +167,73 @@ public class CartController extends BaseController{
 	}
 
 	
-	 @RequestMapping(value = "checkout", method = RequestMethod.POST)
-	    public String checkoutBill(HttpSession session, @ModelAttribute("bills") Bills bill) {
-		  // Gán trạng thái mặc định nếu chưa có giá trị
-		    if (bill.getStatus() == 0) {
-		        bill.setStatus(1); // Thiết lập trạng thái là "Đang xử lý"
-		    }
-		    
-	        // Lấy dữ liệu từ session
-	        Integer totalQuantityCart = (Integer) session.getAttribute("TotalQuantyCart");
-	        Double totalPriceCart = (Double) session.getAttribute("TotalPriceCart");
-	        Double salePercentage = (Double) session.getAttribute("SalePercentage");
-
-	        // Khởi tạo biến tổng giá sau giảm
-	        BigDecimal totalSalePrice = BigDecimal.ZERO;
-
-	        // Kiểm tra và tính toán giá sau giảm nếu dữ liệu hợp lệ
-	        if (totalPriceCart != null && totalPriceCart > 0) {
-	            if (salePercentage == null) {
-	                salePercentage = 0.0; // Nếu không có tỷ lệ giảm giá, mặc định là 0%
-	            }
-	            // Tính giá sau giảm
-	            BigDecimal priceCart = BigDecimal.valueOf(totalPriceCart);
-	            BigDecimal salePercent = BigDecimal.valueOf(salePercentage);
-	            BigDecimal discountFactor = BigDecimal.valueOf(100).subtract(salePercent).divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP);
-	            totalSalePrice = priceCart.multiply(discountFactor);
-
-	            // Làm tròn tổng giá sau giảm đến 1 chữ số thập phân
-	            totalSalePrice = totalSalePrice.setScale(1, RoundingMode.HALF_UP);
-
-	            // Chuyển đổi giá trị đã làm tròn thành số nguyên bằng cách nhân với 10
-	            BigDecimal adjustedSalePrice = totalSalePrice.multiply(BigDecimal.valueOf(10));
-	            int finalSalePrice = adjustedSalePrice.intValue();
-
-	            // Gán số lượng và tổng giá đã giảm vào hóa đơn
-	            bill.setQuanty(totalQuantityCart);
-	            bill.setTotal(finalSalePrice);
-
-	            // Lưu hóa đơn vào cơ sở dữ liệu
-	            if (billService.AddBills(bill) > 0) {
-	                @SuppressWarnings("unchecked")
-	                HashMap<Long, CartDTO> carts = (HashMap<Long, CartDTO>) session.getAttribute("cart");
-
-	                // Thêm chi tiết hóa đơn vào cơ sở dữ liệu
-	                billService.AddbillsDetail(carts);
-
-	                // Cập nhật số lượng kho
-	                for (Map.Entry<Long, CartDTO> entry : carts.entrySet()) {
-	                    Long productId = entry.getKey();
-	                    CartDTO cartDTO = entry.getValue();
-	                    String size = cartDTO.getSize(); // Lấy kích cỡ từ giỏ hàng
-	                    int quantityInCart = cartDTO.getQuanty();
-
-	                    // Tìm ID kích cỡ của sản phẩm
-	                    long productSizeId = cartDao.findProductSizeId(productId, size);
-
-	                    // Cập nhật số lượng kho cho sản phẩm theo kích cỡ
-	                    cartDao.updateStock(productSizeId, quantityInCart);
-	                }
-	            }
-	        }
-
-	        // Xóa giỏ hàng khỏi session
-	        session.removeAttribute("cart");
-	        session.removeAttribute("TotalPriceCart");
-	        session.removeAttribute("SalePercentage");
-
-	        return "redirect:/cart";
+	@RequestMapping(value = "checkout", method = RequestMethod.POST)
+	public String checkoutBill(HttpSession session, @ModelAttribute("bills") Bills bill) {
+	    // Gán trạng thái mặc định nếu chưa có giá trị
+	    if (bill.getStatus() == 0) {
+	        bill.setStatus(1); // Thiết lập trạng thái là "Đang xử lý"
 	    }
+
+	    // Lấy dữ liệu từ session
+	    Integer totalQuantityCart = (Integer) session.getAttribute("TotalQuantyCart");
+	    HashMap<Long, CartDTO> carts = (HashMap<Long, CartDTO>) session.getAttribute("cart");
+	    Double totalSalePrice = 0.0;
+
+	    // Tính tổng giá sau giảm giá của tất cả các sản phẩm trong giỏ hàng
+	    if (carts != null) {
+	        for (Map.Entry<Long, CartDTO> entry : carts.entrySet()) {
+	            CartDTO cartDTO = entry.getValue();
+	            double productPrice = cartDTO.getProduct().getPrice();
+	            int productSalePercentage = cartDTO.getProduct().getSale(); // Lấy % sale của sản phẩm
+
+	            // Tính giá sau giảm
+	            double discountFactor = (100.0 - productSalePercentage) / 100.0;
+	            double salePrice = productPrice * discountFactor;
+
+	            // Tổng tiền cho sản phẩm này (số lượng * giá sau giảm)
+	            double totalProductSalePrice = salePrice * cartDTO.getQuanty();
+
+	            // Cộng dồn vào tổng tiền hóa đơn
+	            totalSalePrice += totalProductSalePrice;
+	        }
+	    }
+
+	    // Gán số lượng và tổng giá từ session vào hóa đơn
+	    bill.setQuanty(totalQuantityCart);
+	    bill.setTotal(totalSalePrice); // Lưu tổng giá sau khi giảm giá
+
+	    // Lưu hóa đơn vào cơ sở dữ liệu
+	    if (billService.AddBills(bill) > 0) {
+	        // Thêm chi tiết hóa đơn vào cơ sở dữ liệu
+	        billService.AddbillsDetail(carts);
+
+	        // Cập nhật số lượng kho
+	        for (Map.Entry<Long, CartDTO> entry : carts.entrySet()) {
+	            Long productId = entry.getKey();
+	            CartDTO cartDTO = entry.getValue();
+	            String size = cartDTO.getSize(); // Lấy kích cỡ từ giỏ hàng
+	            int quantityInCart = cartDTO.getQuanty();
+
+	            // Tìm ID kích cỡ của sản phẩm
+	            long productSizeId = cartDao.findProductSizeId(productId, size);
+
+	            // Cập nhật số lượng kho cho sản phẩm theo kích cỡ
+	            cartDao.updateStock(productSizeId, quantityInCart);
+	        }
+	    }
+
+	    // Xóa giỏ hàng khỏi session
+	    session.removeAttribute("cart");
+	    session.removeAttribute("TotalPriceCart");
+	    session.removeAttribute("SalePercentage");
+	    session.removeAttribute("TotalSalePrice");
+
+	    return "redirect:/cart";
+	}
+
+
 	
+	
+
 
 }

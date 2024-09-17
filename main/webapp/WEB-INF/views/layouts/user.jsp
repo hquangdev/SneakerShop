@@ -16,7 +16,6 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<link href="<c:url value="/assets/admin/cssSneaker/style.css" />" rel="stylesheet" />
 
 <!-- Bootstrap styles -->
 <link href="<c:url value="/assets/user/css/bootstrap.css" />" rel="stylesheet" />
@@ -27,6 +26,8 @@
 
 <!-- Favicons -->
 <link rel="shortcut icon" href="<c:url value="/assets/user/ico/favicon.ico" />">
+<link href="<c:url value="/assets/admin/cssSneaker/style.css" />" rel="stylesheet" />
+
 </head>
 <body>
 	<!-- 
@@ -99,26 +100,25 @@ Lower Header Section
 	</div>
 	<!-- /container -->
 
-	<div class="copyright">
-		<div class="container">
-			<p class="pull-right">
-				<a href="#"><img src="assets/img/maestro.png" alt="payment"></a>
-				<a href="#"><img src="assets/img/mc.png" alt="payment"></a> <a
-					href="#"><img src="assets/img/pp.png" alt="payment"></a> <a
-					href="#"><img src="assets/img/visa.png" alt="payment"></a> <a
-					href="#"><img src="assets/img/disc.png" alt="payment"></a>
-			</p>
-			<span>SneakerShop &copy; 2024<br> Hoàng Quang
-			</span>
+		<div class="copyright">
+		    <div class="container">
+		        <p class="pull-right">
+		            <a href="#"><img src="<c:url value='assets/user/img/maestro.png'/>" alt="payment"></a>
+		            <a href="#"><img src="<c:url value='assets/user/img/mc.png'/>" alt="payment"></a> 
+		            <a href="#"><img src="<c:url value='assets/user/img/pp.png'/>" alt="payment"></a> 
+		            <a href="#"><img src="<c:url value='assets/user/img/visa.png'/>" alt="payment"></a> 
+		            <a href="#"><img src="<c:url value='assets/user/img/disc.png'/>" alt="payment"></a>
+		        </p>
+		        <span>SneakerShop &copy; 2024<br> Hoàng Quang</span>
+		    </div>
 		</div>
-	</div>
-	<a href="#" class="gotop"><i class="icon-double-angle-up"></i></a>
-	
-	<!-- Placed at the end of the document so the pages load faster -->
-	<script src=" <c:url value="/assets/user/js/jquery.js" />"></script>
-	<script src="<c:url value="/assets/user/js/bootstrap.min.js" />"></script>
-	<script src="<c:url value="/assets/user/js/jquery.easing-1.3.min.js" />"></script>
-	<script src="<c:url value="/assets/user/js/jquery.scrollTo-1.4.3.1-min.js" />"></script>
-	<script src="<c:url value="/assets/user/js/shop.js" /> "></script>
+		<a href="#" class="gotop"><i class="icon-double-angle-up"></i></a>
+		
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="<c:url value='/assets/user/js/jquery.js' />"></script>
+		<script src="<c:url value='/assets/user/js/bootstrap.min.js' />"></script>
+		<script src="<c:url value='/assets/user/js/jquery.easing-1.3.min.js' />"></script>
+		<script src="<c:url value='/assets/user/js/jquery.scrollTo-1.4.3.1-min.js' />"></script>
+		<script src="<c:url value='/assets/user/js/shop.js' />"></script>
 </body>
 </html>

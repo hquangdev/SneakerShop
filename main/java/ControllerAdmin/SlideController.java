@@ -97,11 +97,11 @@ public class SlideController extends BaseAdminController{
 	@GetMapping("/manager-slide")
 	public ModelAndView listSlide(
 	        @RequestParam(defaultValue = "1") int page,
-	        @RequestParam(defaultValue = "8") int size) {
+	        @RequestParam(defaultValue = "2") int size) {
 
 	    // Tính toán trang bắt đầu và số lượng mục mỗi trang
 	    int pageNumber = page <= 0 ? 1 : page;
-	    int pageSize = size <= 0 ? 8 : size;
+	    int pageSize = size <= 0 ? 2 : size;
 
 	    // Lấy dữ liệu phân trang từ DAO
 	    List<Slides> slide = slideDao.getSlideWithPagination(pageNumber, pageSize);

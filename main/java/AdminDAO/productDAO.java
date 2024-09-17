@@ -18,6 +18,8 @@ import AdminDTO.ProductDTO;
 import AdminEntity.MapperProduct;
 import AdminEntity.ProductSize;
 import AdminEntity.products;
+import SneakerShop.Entity.MaperSlides;
+import SneakerShop.Entity.Slides;
 
 
 @Service
@@ -40,6 +42,7 @@ public class productDAO extends BaseAdmin {
         sql.append("p.updated_at AS updated_at, ");
         sql.append("p.img AS img, ");
         sql.append("ps.id AS id, ");
+        sql.append("ps.id_productsize AS id_productsize, ");
         sql.append("ps.sizes AS sizes, ");
         sql.append("ps.quantity AS quantity ");
         sql.append("FROM products AS p ");
@@ -148,9 +151,8 @@ public class productDAO extends BaseAdmin {
 		}
 
 		
-	 // sửa sản phẩm
 		public void updateProduct(ProductDTO product) {
-		    // Cập nhật bảng products
+		    // Cập nhật thông tin sản phẩm
 		    String updateProductSql = "UPDATE products " +
 		                              "SET id_category = ?, " +
 		                              "name = ?, " +
@@ -164,7 +166,6 @@ public class productDAO extends BaseAdmin {
 		                              "img = ? " +
 		                              "WHERE id = ?";
 
-		    // Cập nhật thông tin sản phẩm
 		    _jdbcTemplate.update(updateProductSql,
 		                         product.getId_category(),
 		                         product.getName(),
@@ -174,24 +175,26 @@ public class productDAO extends BaseAdmin {
 		                         product.getHighlight(),
 		                         product.getNew_product(),
 		                         product.getDetails(),
-		                         product.getImg(),  // Cập nhật ảnh
+		                         product.getImg(),  // Đảm bảo bạn đã xử lý và lưu ảnh đúng cách
 		                         product.getId_product());  // ID sản phẩm
 
-		    // Cập nhật thông tin kích thước sản phẩm
-		    String updateSizeSql = "UPDATE product_size " +
-		                           "SET sizes = ?, " +
-		                           "quantity = ? " +
-		                           "WHERE id_productsize = ? AND id = ?";
+		    // Xóa kích thước cũ
+		    String deleteSizeSql = "DELETE FROM product_size WHERE id_productsize = ?";
+		    _jdbcTemplate.update(deleteSizeSql, product.getId_product());
+
+		    // Thêm hoặc cập nhật kích thước mới
+		    String updateSizeSql = "INSERT INTO product_size (id_productsize, sizes, quantity) " +
+		                           "VALUES (?, ?, ?) " +
+		                           "ON DUPLICATE KEY UPDATE sizes = VALUES(sizes), quantity = VALUES(quantity)";
 
 		    for (ProductSize size : product.getProductsize()) {
 		        _jdbcTemplate.update(updateSizeSql,
+		        				size.getId_productsize(),
 		                             size.getSizes(),
-		                             size.getQuantity(),
-		                             size.getId_productsize(),  // ID kích thước sản phẩm
-		                             product.getId_product());          // ID sản phẩm
+		                             size.getQuantity());
 		    }
-		
 		}
+
 
 	//lấy theo id đẻ thực hiện xóa sửa
 	 @SuppressWarnings("deprecation")
@@ -202,10 +205,11 @@ public class productDAO extends BaseAdmin {
 
 	//xóa sản phẩm
 	public int deleteProduct(int id) {
-	    
+		
+		 deleteBilldetails(id);
+		 deleteBills(id);
 	    deleteProductSizes(id);
-	    deleteBills(id);
-	    deleteBilldetails(id);
+	   
 	 
 	    String sql = "DELETE FROM products WHERE id = ?";
 	    int result = _jdbcTemplate.update(sql, id);
@@ -227,6 +231,31 @@ public class productDAO extends BaseAdmin {
     	return _jdbcTemplate.update(sql, id);
     }
     
+    //phân trang
     
+//    @SuppressWarnings("deprecation")
+//    public List<ProductDTO> getSlideWithPagination(int pageNumber, int pageSize) {
+//        int offset = (pageNumber - 1) * pageSize;
+//        StringBuffer sqlBuffer = SqlString();  // Giữ nguyên phương thức SqlString()
+//        String sql = sqlBuffer.toString();
+//        sql += " LIMIT ? OFFSET ?";
+//
+//        // Sử dụng RowMapper phù hợp để ánh xạ nhiều cột
+//        return _jdbcTemplate.query(sql, new Object[]{pageSize, offset}, new MapperProductDTO());
+//    }
+//
+//
+//
+//    public int getTotalSlideCount() {
+//        // Sử dụng câu lệnh SQL đơn giản để đếm số lượng sản phẩm
+//        String sql = "SELECT COUNT(DISTINCT p.id) " + 
+//                     "FROM products AS p";
+//
+//        // Thực thi truy vấn và trả về kết quả
+//        return _jdbcTemplate.queryForObject(sql, Integer.class);
+//    }
+
+
+
 
 }

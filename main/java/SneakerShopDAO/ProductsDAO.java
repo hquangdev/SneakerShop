@@ -35,6 +35,7 @@ public class ProductsDAO extends BaseDAO {
         sql.append("p.updated_at AS updated_at, ");
         sql.append("p.img AS img, ");
         sql.append("ps.id AS id, ");
+        sql.append("ps.id_productsize AS id_productsize, ");
         sql.append("ps.sizes AS sizes, ");
         sql.append("ps.quantity AS quantity ");
         sql.append("FROM products AS p ");
@@ -78,8 +79,8 @@ public class ProductsDAO extends BaseDAO {
         }
         
         if (!highlight && !newProduct) {
-            sql.append("AND p.new_product = 0 ");
-            sql.append("AND p.highlight = 0 ");// Sản phẩm không phải mới
+            sql.append("AND p.new_product = 3 ");
+            sql.append("AND p.highlight = 3 ");// Sản phẩm không phải mới
         }
         
         sql.append("GROUP BY p.id ");

@@ -20,12 +20,12 @@ public class BillService implements IBillService {
 		return billsDao.getAllBill();
 	}
 
-	@Override
-	public BillDetailDTO getBillDetailByID(long id_bills) {
-		
-		return billsDao.getBillDetailByID(id_bills);
-	}
-
+	  @Override
+	    public List<BillDetailDTO> getBillDetailByID(long id_bills) {
+	        return billsDao.getBillDetailByID(id_bills); // Trả về danh sách từ DAO
+	    }
+	  
+	  
 	@Override
 	public int deleteBill(int id) {
 		billsDao.deleteBillDetail(id);

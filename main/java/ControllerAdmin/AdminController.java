@@ -53,25 +53,54 @@ public class AdminController extends BaseAdminController {
 
 	}
 
-	// Phân quyền thêm nhân viên
 	@RequestMapping(value = "/addPersonnel", method = RequestMethod.POST)
 	public ModelAndView addEmployee(HttpSession session, @ModelAttribute("admin") Admins admin) {
-		Admins currentUser = (Admins) session.getAttribute("LoginInfo");
+	    Admins currentUser = (Admins) session.getAttribute("LoginInfo");
 
-		if (currentUser != null && currentUser.getRole() == 1) { // Admin
-			String status = adminService.addEmployee(admin);
+	    // Kiểm tra chiều dài số điện thoại
+	    String phone = admin.getPhone();
+	    if (phone.length() > 9) {
+	        return new ModelAndView("admin/personnel/add")
+	            .addObject("status", "Số điện thoại quá dài.")
+	            .addObject("employee", admin);
+	    }
 
-			if (status.equals("Tên tài khoản đã tồn tại")) {
-				ModelAndView mv = new ModelAndView("admin/personnel/add");
-				mv.addObject("status", status);
-				mv.addObject("employee", admin);
-				return mv;
-			} else {
-				return new ModelAndView("redirect:/admin/manager-personnel");
-			}
-		} else {
-			return new ModelAndView("error/403"); // Trang lỗi quyền truy cập
-		}
+	    // Kiểm tra quyền admin
+	    if (currentUser != null && currentUser.getRole() == 1) {
+	        try {
+	            String status = adminService.addEmployee(admin);
+
+	            if (status.equals("Tên tài khoản đã tồn tại")) {
+	                // Trả về trang thêm nhân viên kèm theo thông báo lỗi
+	                ModelAndView mv = new ModelAndView("admin/personnel/add");
+	                mv.addObject("status", status);
+	                mv.addObject("employee", admin);
+	                return mv;
+	            } else {
+	                // Nếu thành công, chuyển hướng về trang quản lý nhân viên
+	                return new ModelAndView("redirect:/admin/manager-personnel");
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace(); // Ghi chi tiết lỗi
+	            ModelAndView mv = new ModelAndView("admin/personnel/add");
+	            mv.addObject("status", "Có lỗi xảy ra: " + e.getMessage());
+	            mv.addObject("employee", admin);
+	            return mv;
+	        }
+	    } else {
+	    	
+	        return new ModelAndView("admin/personnel/add")
+	        .addObject("status", "Bạn không có quyền thêm")
+            .addObject("employee", admin);
+	    }
+	}
+
+
+
+
+	private ModelAndView addObject(String string, String string2) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	// Phân quyền xóa nhân viên
@@ -88,36 +117,36 @@ public class AdminController extends BaseAdminController {
 
 	// Chuyển tới trang sửa nhân viên
 	@RequestMapping(value = "/manager-personnel/edit/{id}", method = RequestMethod.GET)
-	public ModelAndView editEmployee(HttpSession session, @PathVariable("id") int id) {
-		Admins currentUser = (Admins) session.getAttribute("LoginInfo");
-
-		if (currentUser != null && currentUser.getRole() == 1) { // Admin
-			Admins admin = adminService.getAdminId(id);
-			ModelAndView mv = new ModelAndView("admin/personnel/edit");
-			mv.addObject("personnel", admin);
-			return mv;
-		} else {
-			return new ModelAndView("error/403"); // Trang lỗi quyền truy cập
-		}
+	public ModelAndView editEmployee(HttpSession session, @PathVariable("id") int id, @RequestParam(value = "status", required = false) String status) {
+	    Admins currentUser = (Admins) session.getAttribute("LoginInfo");
+	    List<Admins> admin2 = adminService.getAllAdmin();
+	    
+	    if (currentUser != null && currentUser.getRole() == 1) { // Admin
+	        Admins admin = adminService.getAdminId(id);
+	        ModelAndView mv = new ModelAndView("admin/personnel/edit");
+	        mv.addObject("personnel", admin);
+	        if (status != null) {
+	            mv.addObject("status", status);
+	        }
+	        return mv;
+	    } else {
+	        return new ModelAndView("redirect:/admin/manager-personnel")
+	        		 .addObject("status", "Bạn không có quyền sửa")
+	                .addObject("personnel", admin2);
+	    }
 	}
 
+
 	// chuc năng sửa nhân viên
-	@RequestMapping(value = "/management-personnel/update/personnel", method = RequestMethod.POST)
+	@RequestMapping(value = "/manager-personnel/edit/update-personnel", method = RequestMethod.POST)
 	public String updatePersonnel(HttpSession session, @RequestParam("id") int id,
-			@ModelAttribute("employee") Admins admin) throws IOException {
+			@ModelAttribute("personnel") Admins admin) throws IOException {
 
 		Admins currentUser = (Admins) session.getAttribute("LoginInfo");
 
 		if (currentUser != null && currentUser.getRole() == 1) { // Admin
 			admin.setId(id);
-			System.out.println("Email: " + admin.getEmail());
-			System.out.println("Username: " + admin.getUsername());
-			System.out.println("Password: " + admin.getPassword());
-			System.out.println("Address: " + admin.getAddress());
-			System.out.println("Phone: " + admin.getPhone());
-			System.out.println("Role: " + admin.getRole());
-			System.out.println("ID: " + admin.getId());
-
+		
 			adminService.editEmployee(admin);
 
 			return "redirect:/admin/manager-personnel";
@@ -126,7 +155,7 @@ public class AdminController extends BaseAdminController {
 		}
 	}
 
-	@GetMapping("/management-personnel")
+	@GetMapping("/manager-personnel")
 	public ModelAndView listPersonnel(@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10") int size) {
 

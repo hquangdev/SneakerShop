@@ -32,7 +32,8 @@
 					<td>${item.updated_at }</td>
 					<td>
 						<a class="master-buttonedit" href="<c:url value='/admin/manager-client/edit/${item.id }'/>">Sửa</a>
-						<a class="master-buttondelete" href="<c:url value='/admin/manager-client/delete/${item.id }'/>">Xóa</a>
+				<!-- 		<a class="master-buttondelete" href="<c:url value='/admin/manager-client/delete/${item.id }'/>">
+				Xóa</a> -->
 					</td>
 				</tr>
 			</c:forEach>	

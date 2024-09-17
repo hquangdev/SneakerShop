@@ -8,24 +8,19 @@ import SneakerShop.Entity.Bills;
 public class BillsDAO extends BaseDAO {
 
 	public int AddBills(Bills bill) {
-	    String sql = "INSERT INTO bills (user, phone, display_name, address, quanty, total, note, status) " +
-	                 "VALUES (?, ?, ?, ?, ?, ?, ?, 1)"; // Gán giá trị cố định 1 cho status
+		String sql = "INSERT INTO bills (user, phone, display_name, address, quanty, total, note, status) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, 1)"; // Gán giá trị cố định 1 cho status
 
-	    return _jdbcTemplate.update(sql,  bill.getUser(),
-	                                      bill.getPhone(),
-	                                      bill.getDisplay_name(),
-	                                      bill.getAddress(),
-	                                      bill.getQuanty(),
-	                                      bill.getTotal(),
-	                                      bill.getNote());
-	 
+		return _jdbcTemplate.update(sql, bill.getUser(), bill.getPhone(), bill.getDisplay_name(), bill.getAddress(),
+				bill.getQuanty(), bill.getTotal(), bill.getNote());
+
 	}
 
 // lấy id lớn nhất của bills mới thêm vào
 	public long GetIDLastBills() {
 		String sql = "SELECT MAX(id) FROM bills";
 		Long id = _jdbcTemplate.queryForObject(sql, Long.class);
-		return id; 
+		return id;
 	}
 
 	public int AddBillsDetail(BillDetail billdetail) {
@@ -50,6 +45,5 @@ public class BillsDAO extends BaseDAO {
 		int insert = _jdbcTemplate.update(sql.toString());
 		return insert;
 	}
-
 
 }

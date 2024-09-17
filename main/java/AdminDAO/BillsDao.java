@@ -38,20 +38,21 @@ public class BillsDao extends BaseAdmin {
 	
 	
 	@SuppressWarnings("deprecation")
-	public BillDetailDTO getBillDetailByID(long id_bills) {
-		
-		 String sql = "SELECT b.user AS user, b.phone AS phone, b.display_name AS display_name, b.address AS address, " +
-                 "b.quanty AS quanty, b.status AS status, b.note AS note, bd.total AS total, bd.selected_size AS selected_size,"
-                 + "p.price AS price, p.name AS productName, bd.id_bills AS id_bills " +
-                 "FROM bills AS b " +
-                 "JOIN billdetail AS bd ON b.id = bd.id_bills  " + 
-                 "JOIN products AS p ON bd.id_product = p.id " + 
-                 "WHERE b.id = ?"; 
-		 
-		 return _jdbcTemplate.queryForObject(sql, new Object[] { id_bills }, new MapperBillDetailDTO());
-		
-		
+	public List<BillDetailDTO> getBillDetailByID(long id_bills) {
+
+	    String sql = "SELECT b.user AS user, b.phone AS phone, b.display_name AS display_name, b.address AS address, " +
+	                 "bd.quanty AS quanty, b.status AS status, b.note AS note, bd.total AS total, bd.selected_size AS selected_size, " +
+	                 "p.price AS price, p.name AS productName, bd.id_bills AS id_bills " +
+	                 "FROM bills AS b " +
+	                 "JOIN billdetail AS bd ON b.id = bd.id_bills " +
+	                 "JOIN products AS p ON bd.id_product = p.id " +  // id_product thay vì id
+	                 "WHERE b.id = ?";
+
+	    	List<BillDetailDTO> list = _jdbcTemplate.query(sql, new Object[] { id_bills }, new MapperBillDetailDTO());
+        
+        return list; // Tr
 	}
+
 	
 	//sửa trạng thía giao hàng
 	public int updateOrderStatus(long id, int newStatus) {
@@ -62,14 +63,14 @@ public class BillsDao extends BaseAdmin {
 	
 	// Phân trang 
 			@SuppressWarnings("deprecation")
-			public List<Bills> getSlideWithPagination(int pageNumber, int pageSize) {
+			public List<Bills> getBillWithPagination(int pageNumber, int pageSize) {
 			    int offset = (pageNumber - 1) * pageSize;
-			    String sql = "SELECT * FROM users LIMIT ? OFFSET ?";
+			    String sql = "SELECT * FROM bills LIMIT ? OFFSET ?";
 			    return _jdbcTemplate.query(sql, new Object[]{pageSize, offset}, new MapperBills());
 			}
 
-			public int getTotalSlideCount() {
-			    String sql = "SELECT COUNT(*) FROM users";
+			public int getTotalBillCount() {
+			    String sql = "SELECT COUNT(*) FROM bills";
 			    return _jdbcTemplate.queryForObject(sql, Integer.class);
 			}
 }

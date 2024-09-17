@@ -30,7 +30,7 @@
 
         <div class="form-groupedit">
             <label for="price">Giá</label>
-            <input type="number" id="price" name="price" value="${productDTO.price}" required />
+            <input type="text" id="price" name="price" value="${productDTO.price}" required />
         </div>
 
         <div class="form-groupedit">

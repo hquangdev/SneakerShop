@@ -47,7 +47,7 @@
 
 				
 
-					<li class="">
+					<li class="open">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-list"></i>
 							<span class="menu-text"> Quản lí </span>

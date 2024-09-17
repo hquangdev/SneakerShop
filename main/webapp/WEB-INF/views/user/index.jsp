@@ -80,14 +80,11 @@
 					</div>
 			
 				</div>
-				<!--
-	Featured Products
-	-->
+				<!--Sản phẩm thường-->
+	
+	
 				<div class="well well-small">
 					<h3>
-						<a class="btn btn-mini pull-right" href="products.html"
-							title="View more">Xem thêm<span class="icon-plus"></span>
-							</a>
 						Sản phẩm
 					</h3>
 					<hr class="soften" />

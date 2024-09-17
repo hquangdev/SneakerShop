@@ -33,6 +33,7 @@ public class MapperProductDTO implements RowMapper<ProductDTO> {
 	    // Xử lý kích thước và số lượng sản phẩm
 	    String sizes = rs.getString("sizes");
 	    String quantities = rs.getString("quantity");
+	    String id_productsize = rs.getString("id_productsize");
 	    String id_tablesize = rs.getString("id");
 
 	    List<ProductSize> productSizes = new ArrayList<>();
@@ -40,6 +41,7 @@ public class MapperProductDTO implements RowMapper<ProductDTO> {
 	    		&& !id_tablesize.isEmpty() && id_tablesize != null) {
 	        String[] sizeArray = sizes.split(",");
 	        String[] quantityArray = quantities.split(",");
+	        String[] id_productsizeArray = id_productsize.split(",");
 	        String[] id_tablesizeArray = id_tablesize.split(",");
 
 	        // Đảm bảo kích thước của sizeArray và quantityArray là đồng nhất
@@ -51,11 +53,13 @@ public class MapperProductDTO implements RowMapper<ProductDTO> {
 	            try {
 	                int sizeValue = Integer.parseInt(sizeArray[i].trim());
 	                int quantityValue = Integer.parseInt(quantityArray[i].trim());
+	                int id_productsizeValue = Integer.parseInt(id_productsizeArray[i].trim());
 	                int id_tablesizeValue = Integer.parseInt(id_tablesizeArray[i].trim());
 
 	                ProductSize size = new ProductSize();
 	                size.setSizes(sizeValue);
 	                size.setQuantity(quantityValue);
+	                size.setId_productsize(id_productsizeValue);
 	                size.setId(id_tablesizeValue);
 	                productSizes.add(size);
 	            } catch (NumberFormatException e) {

@@ -11,6 +11,7 @@ import AdminService.ProductService;
 import AdminService.ClientService;
 import Service.user.CategoryServiceImpl;
 import Service.user.ContactService;
+import SneakerShopDAO.CategorysDAO;
 
 
 @Controller
@@ -38,5 +39,9 @@ public class BaseAdminController {
 	
 	@Autowired
 	ContactService contactSv;
+	
+
+	@Autowired
+	 CategorysDAO categoryDao;
 
 }

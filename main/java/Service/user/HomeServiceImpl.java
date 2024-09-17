@@ -34,7 +34,7 @@ public class HomeServiceImpl implements IHomeService {
     
     @Autowired
     private ContactDAO contactDao;
-
+    
     @Override
     public List<Slides> GetDataSlide() {
         return slidesDAO.GetDataSlide();
@@ -71,6 +71,7 @@ public class HomeServiceImpl implements IHomeService {
 		List<Contact> listContact = contactDao.getAllContact();
 		return listContact;
 	}
+	
 	
 
 }
