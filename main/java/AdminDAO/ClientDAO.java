@@ -24,8 +24,7 @@ public class ClientDAO extends BaseAdmin{
 		return _jdbcTemplate.queryForObject(sql, new Object [] {id}, new MapperClients());
 	}
 
-	
-//	//sửa 
+		//sửa 
 	public int EditClient(Clients client) {
 	    String sql = "UPDATE users SET email = ?, password = ?, display_name = ?, address = ?, updated_at = NOW() WHERE id = ?";
 	    return _jdbcTemplate.update(sql, client.getEmail(), client.getPassword(), client.getDisplay_name(),
@@ -45,7 +44,5 @@ public class ClientDAO extends BaseAdmin{
 		    return _jdbcTemplate.queryForObject(sql, Integer.class);
 		}
 
-		
-		//phân trang
 		
 }

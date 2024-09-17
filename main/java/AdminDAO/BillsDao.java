@@ -24,7 +24,6 @@ public class BillsDao extends BaseAdmin {
 	
 	//xóa bill
 	public int deleteBill(int id) {
-		
 		deleteBillDetail(id);
 		
 		String sql = "DELETE FROM bills WHERE id = ?";
@@ -45,12 +44,12 @@ public class BillsDao extends BaseAdmin {
 	                 "p.price AS price, p.name AS productName, bd.id_bills AS id_bills " +
 	                 "FROM bills AS b " +
 	                 "JOIN billdetail AS bd ON b.id = bd.id_bills " +
-	                 "JOIN products AS p ON bd.id_product = p.id " +  // id_product thay vì id
+	                 "JOIN products AS p ON bd.id_product = p.id " +  
 	                 "WHERE b.id = ?";
 
 	    	List<BillDetailDTO> list = _jdbcTemplate.query(sql, new Object[] { id_bills }, new MapperBillDetailDTO());
         
-        return list; // Tr
+        return list; 
 	}
 
 	

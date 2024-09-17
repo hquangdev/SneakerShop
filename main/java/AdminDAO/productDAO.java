@@ -52,7 +52,7 @@ public class productDAO extends BaseAdmin {
     }
 	
 	//tìm kiếm theo sản phẩm
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "unlikely-arg-type" })
 	public List<ProductDTO> findByNameContaining(String keyword) {
 	    StringBuffer sql = SqlString();
 	    sql.append("WHERE p.name LIKE ?"); // Thêm điều kiện tìm kiếm
@@ -79,8 +79,7 @@ public class productDAO extends BaseAdmin {
 	// lấy id dể sửa
 	@SuppressWarnings("deprecation")
 	public ProductDTO getDataProductsid(long id_product) {
-	    StringBuffer sql = SqlString();
-	   
+	    StringBuffer sql = SqlString(); 
 	    sql.append("WHERE p.id = ? ");
 
 	    // Truy vấn sản phẩm với ID và trả về một danh sách ProductDTO
@@ -93,8 +92,6 @@ public class productDAO extends BaseAdmin {
 	    for (ProductDTO product : productList) {
 	        productSizeList.addAll(product.getProductsize());
 	    }
-
-	    // Đặt kích cỡ và số lượng vào sản phẩm
 	    productDTO.setProductsize(productSizeList);
 
 	    return productDTO;
