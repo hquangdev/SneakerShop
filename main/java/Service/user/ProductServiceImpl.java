@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import AdminDTO.ProductDTO;
-import AdminEntity.products;
 import SneakerShopDAO.ProductsDAO;
 @Service
 public class ProductServiceImpl implements IProductService {

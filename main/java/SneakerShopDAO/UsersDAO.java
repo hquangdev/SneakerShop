@@ -24,7 +24,7 @@ public class UsersDAO extends BaseDAO{
 		sql.append(") ");
 		sql.append("VALUES ");
 		sql.append("( ");
-		sql.append("  '" + user.getEmail() + "', "); // Dấu nháy đơn bao quanh giá trị chuỗi
+		sql.append("  '" + user.getEmail() + "', "); 
 		sql.append("  '" + user.getPassword() + "', ");
 		sql.append("  '" + user.getDisplay_name() + "', ");
 		sql.append("  '" + user.getAddress() + "' ");

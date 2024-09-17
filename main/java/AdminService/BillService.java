@@ -11,7 +11,7 @@ import SneakerShop.Entity.Bills;
 
 @Service
 public class BillService implements IBillService {
-	
+
 	@Autowired
 	private BillsDao billsDao;
 
@@ -20,22 +20,30 @@ public class BillService implements IBillService {
 		return billsDao.getAllBill();
 	}
 
-	  @Override
-	    public List<BillDetailDTO> getBillDetailByID(long id_bills) {
-	        return billsDao.getBillDetailByID(id_bills); // Trả về danh sách từ DAO
-	    }
-	  
-	  
+	@Override
+	public List<BillDetailDTO> getBillDetailByID(long id_bills) {
+		return billsDao.getBillDetailByID(id_bills); 
+	}
+
 	@Override
 	public int deleteBill(int id) {
 		billsDao.deleteBillDetail(id);
 		return billsDao.deleteBill(id);
 	}
-	
+
 	@Override
 	public void updateStatus(long id, int status) {
 		billsDao.updateOrderStatus(id, status);
 	}
-	
+
+	@Override
+	public int getTotalShoesInStock() {
+		return billsDao.getTotalBillCount();
+	}
+
+	@Override
+	public Double getTotalRevenue() {
+		return billsDao.getTotalRevenue();
+	}
 
 }

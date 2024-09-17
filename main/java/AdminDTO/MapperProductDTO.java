@@ -44,10 +44,8 @@ public class MapperProductDTO implements RowMapper<ProductDTO> {
 	        String[] id_productsizeArray = id_productsize.split(",");
 	        String[] id_tablesizeArray = id_tablesize.split(",");
 
-	        // Đảm bảo kích thước của sizeArray và quantityArray là đồng nhất
 	     // Đảm bảo kích thước của sizeArray và quantityArray là đồng nhất
 	        int length = Math.min(sizeArray.length, Math.min(quantityArray.length, id_tablesizeArray.length));
-
 
 	        for (int i = 0; i < length; i++) {
 	            try {
@@ -63,7 +61,6 @@ public class MapperProductDTO implements RowMapper<ProductDTO> {
 	                size.setId(id_tablesizeValue);
 	                productSizes.add(size);
 	            } catch (NumberFormatException e) {
-	                // Ghi log lỗi nếu dữ liệu không hợp lệ
 	                System.err.println("Dữ liệu không hợp lệ tại phần tử " + i + ": " + sizeArray[i] + ", " + quantityArray[i]);
 	            }
 	        }

@@ -1,7 +1,7 @@
 package AdminDTO;
 
 public class BillDetailDTO {
-	
+
 	private int id_bills;
 	private String productName;
 	private int size;
@@ -14,7 +14,7 @@ public class BillDetailDTO {
 	private int quanty;
 	private String note;
 	private int status;
-	
+
 	public BillDetailDTO() {
 		super();
 	}
@@ -26,7 +26,6 @@ public class BillDetailDTO {
 	public void setId_bills(int id_bills) {
 		this.id_bills = id_bills;
 	}
-
 
 	public String getProductName() {
 		return productName;
@@ -59,8 +58,6 @@ public class BillDetailDTO {
 	public void setUser(String user) {
 		this.user = user;
 	}
-	
-	
 
 	public int getPhone() {
 		return phone;
@@ -109,8 +106,6 @@ public class BillDetailDTO {
 	public void setNote(String note) {
 		this.note = note;
 	}
-	
-	
 
 	public int getStatus() {
 		return status;
@@ -127,6 +122,4 @@ public class BillDetailDTO {
 				+ address + ", total=" + total + ", quanty=" + quanty + ", note=" + note + "]";
 	}
 
-	
-	
 }

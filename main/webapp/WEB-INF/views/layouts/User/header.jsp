@@ -61,9 +61,9 @@ Navigation Bar Section
 						</form>
 						<ul class="nav pull-right">
 						<c:if test="${ empty LoginInfo }">
-							<li class="dropdown"><a data-toggle="dropdown"
-								class="dropdown-toggle" href="#"><span class="icon-lock"></span>
-									Đăng nhập <b class="caret"></b></a>
+							<li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#"><span class="icon-lock">
+								</span>Đăng nhập <b class="caret"></b></a>
+									
 								<div class="dropdown-menu">
 								
 									<form class="form-horizontal loginFrm" action="Login-account" method="post">

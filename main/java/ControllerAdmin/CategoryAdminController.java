@@ -3,7 +3,6 @@ package ControllerAdmin;
 import java.io.IOException;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,31 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import AdminEntity.Admins;
-import Service.user.CategoryServiceImpl;
 import SneakerShop.Entity.Categorys;
-import SneakerShop.Entity.Slides;
-import SneakerShopDAO.CategorysDAO;
+
 
 @RequestMapping("/admin")
 @Controller
 public class CategoryAdminController extends BaseAdminController {
 
-	@Autowired
-	CategoryServiceImpl categoryService;
-	
-
-//	// chuyển tới danh sách
-//	@RequestMapping(value = ("/manager-category"))
-//	public ModelAndView listCategory() {
-//
-//		List<Categorys> category = categoryService.GetAllCategory();
-//
-//		_mvAdmin.setViewName("admin/category/list");
-//		_mvAdmin.addObject("category", category);
-//		_mvAdmin.addObject("categorys", new Categorys());
-//		return _mvAdmin;
-//	}
 
 	// chuyển tới trang sửa danh mục
 	@RequestMapping(value = "/manager-category/edit/{id}")

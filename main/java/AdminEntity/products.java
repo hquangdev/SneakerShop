@@ -3,7 +3,7 @@ package AdminEntity;
 import java.sql.Date;
 
 public class products {
-	
+
 	private long id;
 	private int id_category;
 	private String name;
@@ -16,7 +16,7 @@ public class products {
 	private Date created_at;
 	private Date updated_at;
 	private String img;
-	
+
 	public products() {
 		super();
 	}
@@ -69,7 +69,6 @@ public class products {
 		this.title = title;
 	}
 
-
 	public int getHighlight() {
 		return highlight;
 	}
@@ -117,8 +116,5 @@ public class products {
 	public void setImg(String img) {
 		this.img = img;
 	}
-	
-	
 
-	
 }

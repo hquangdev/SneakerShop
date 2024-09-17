@@ -46,7 +46,7 @@
 					<div class="control-group">
 						<label class="control-label">Địa chỉ<sup>*</sup></label>
 						<div class="controls">
-							<input type="text" placeholder="Xin mời nhập">
+							<input type="text" name="address" placeholder="Xin mời nhập">
 						</div>
 					</div>
 					
@@ -60,12 +60,14 @@
 			</div>
 
 			<div class="well">
+			<c:if test="${not empty statuslogin }">${statuslogin }</c:if>
 			<form:form method="post" action="Login-account" modelAttribute="user">
 					<h3>Đăng nhập tài khoản</h3>
 					<div class="control-group">
 						<label class="control-label">Email <sup>*</sup></label>
 						<div class="controls">
 							<form:input path="email" placeholder=" Xin mời nhập"/>
+							<form:input path="id"/>
 						</div>
 					</div>
 					<div class="control-group">

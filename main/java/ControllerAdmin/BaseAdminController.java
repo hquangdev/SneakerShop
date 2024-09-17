@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
+import AdminDAO.BillsDao;
 import AdminService.AdminServiceImpl;
 import AdminService.BillService;
 import AdminService.HomeAdminSV;
@@ -43,5 +44,12 @@ public class BaseAdminController {
 
 	@Autowired
 	 CategorysDAO categoryDao;
+	
+	@Autowired
+	CategoryServiceImpl categoryService;
+	
+	
+	@Autowired
+	BillsDao billDao;
 
 }

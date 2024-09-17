@@ -20,168 +20,154 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import AdminDAO.productDAO;
 import AdminDTO.ProductDTO;
 import AdminEntity.ProductSize;
-import AdminEntity.products;
-import SneakerShop.Entity.Categorys;
-import SneakerShop.Entity.Slides;
 
 @RequestMapping("/admin")
 @Controller
 public class ProductsController extends BaseAdminController {
-	
+
 	@Autowired
 	productDAO productDao;
-	
+
 	// lấy giữ liệu in ra list
 	@RequestMapping(value = "/manager-product", method = RequestMethod.GET)
-	public ModelAndView getAllProductDto() {		
-		 _mvAdmin.addObject("productDto", homeAdminSv.getAllProductDto());
-		 _mvAdmin.addObject("categories", categorySv.GetAllCategory());
-		 _mvAdmin.setViewName("admin/products/list");
+	public ModelAndView getAllProductDto() {
+		_mvAdmin.addObject("productDto", homeAdminSv.getAllProductDto());
+		_mvAdmin.addObject("categories", categorySv.GetAllCategory());
+		_mvAdmin.setViewName("admin/products/list");
 		return _mvAdmin;
 
 	}
-	
-	//chuyển tới trang thêm snar phẩm
+
+	// chuyển tới trang thêm snar phẩm
 	@RequestMapping(value = "/add-product", method = RequestMethod.GET)
 	public ModelAndView formAddProduct() {
-		 _mvAdmin.addObject("categories", categorySv.GetAllCategory());	
+		_mvAdmin.addObject("categories", categorySv.GetAllCategory());
 		_mvAdmin.setViewName("admin/products/add");
-		
+
 		return _mvAdmin;
 	}
-	
-	
-	//thêm sản phẩm
+
+	// thêm sản phẩm
 	@RequestMapping(value = "/addProduct", method = RequestMethod.POST)
-	public String addPr(
-	        @RequestParam("id_category") int id_category,
-	        @RequestParam("name") String name,
-	        @RequestParam("img")  MultipartFile[] img,
-	        @RequestParam("highlight") int highlight,
-	        @RequestParam("new_product") int new_product,
-	        @RequestParam("price") double price,
-	        @RequestParam("sizes") List<String> sizes,
-	        @RequestParam("quantity") List<String> quantity,
-	        @RequestParam("sale") int sale,
-	        @RequestParam("title") String title,
-	        @RequestParam("details") String details,
-	        RedirectAttributes redirectAttributes) throws IOException, SQLException {
+	public String addPr(@RequestParam("id_category") int id_category, @RequestParam("name") String name,
+			@RequestParam("img") MultipartFile[] img, @RequestParam("highlight") int highlight,
+			@RequestParam("new_product") int new_product, @RequestParam("price") double price,
+			@RequestParam("sizes") List<String> sizes, @RequestParam("quantity") List<String> quantity,
+			@RequestParam("sale") int sale, @RequestParam("title") String title,
+			@RequestParam("details") String details, RedirectAttributes redirectAttributes)
+			throws IOException, SQLException {
 
-	    try {
-	        List<ProductSize> productSizeList = convertToProductSize(sizes, quantity); // Xử lý yêu cầu với các tham số
-	        productSv.addProduct(id_category, name, new_product, img, highlight, price, productSizeList, sale, title, details);
+		try {
+			List<ProductSize> productSizeList = convertToProductSize(sizes, quantity); // Xử lý yêu cầu với các tham số
+			productSv.addProduct(id_category, name, new_product, img, highlight, price, productSizeList, sale, title,
+					details);
 
-	        // Thêm thông báo thành công
-	        redirectAttributes.addFlashAttribute("message", "Sản phẩm đã được thêm thành công!");
-	    } catch (Exception e) {
-	        // Thêm thông báo lỗi
-	        redirectAttributes.addFlashAttribute("error", "Đã xảy ra lỗi khi thêm sản phẩm: " + e.getMessage());
-	    }
+			// Thêm thông báo thành công
+			redirectAttributes.addFlashAttribute("message", "Sản phẩm đã được thêm thành công!");
+		} catch (Exception e) {
+			// Thêm thông báo lỗi
+			redirectAttributes.addFlashAttribute("error", "Đã xảy ra lỗi khi thêm sản phẩm: " + e.getMessage());
+		}
 
-	    return "redirect:/admin/manager-product";
+		return "redirect:/admin/manager-product";
 	}
-	
-	
-	//chuyẻn chuỗi thành int
+
+	// chuyẻn chuỗi thành int
 	private List<ProductSize> convertToProductSize(List<String> sizes, List<String> quantity) {
-	    List<ProductSize> productSizeList = new ArrayList<>();
-	    
-	    // Giả sử kích thước, số lượng, id_productsize và id_tablesize tương ứng theo chỉ số
-	    for (int i = 0; i < sizes.size(); i++) {
-	        ProductSize productSize = new ProductSize();
-	        productSize.setSizes(Integer.parseInt(sizes.get(i)));// Gán kích thước
-	        productSize.setQuantity(Integer.parseInt(quantity.get(i))); // Gán số lượng
-	   
-	        productSizeList.add(productSize);
-	    }
-	    
-	    return productSizeList;
+		List<ProductSize> productSizeList = new ArrayList<>();
+
+		// Giả sử kích thước, số lượng, id_productsize và id_tablesize tương ứng theo
+		// chỉ số
+		for (int i = 0; i < sizes.size(); i++) {
+			ProductSize productSize = new ProductSize();
+			productSize.setSizes(Integer.parseInt(sizes.get(i)));// Gán kích thước
+			productSize.setQuantity(Integer.parseInt(quantity.get(i))); // Gán số lượng
+
+			productSizeList.add(productSize);
+		}
+
+		return productSizeList;
 	}
-	
-	//chuyẻn chuỗi thành int
-	private List<ProductSize> convertToProductSizeList(List<String> sizes, List<String> quantity, List<Integer> id_productsize, List<Integer> id_tablesize) {
-	    List<ProductSize> productSizeList = new ArrayList<>();
-	    
-	    // Giả sử kích thước, số lượng, id_productsize và id_tablesize tương ứng theo chỉ số
-	    for (int i = 0; i < sizes.size(); i++) {
-	        ProductSize productSize = new ProductSize();
-	        productSize.setSizes(Integer.parseInt(sizes.get(i)));// Gán kích thước
-	        productSize.setQuantity(Integer.parseInt(quantity.get(i))); // Gán số lượng
-	        productSize.setId_productsize(id_productsize.get(i)); // Gán id_productsize
-	        productSize.setId(id_tablesize.get(i));  // Gán id_tablesize
-	        productSizeList.add(productSize);
-	    }
-	    
-	    return productSizeList;
+
+	// chuyẻn chuỗi thành int
+	private List<ProductSize> convertToProductSizeList(List<String> sizes, List<String> quantity,
+			List<Integer> id_productsize, List<Integer> id_tablesize) {
+		List<ProductSize> productSizeList = new ArrayList<>();
+
+		// Giả sử kích thước, số lượng, id_productsize và id_tablesize tương ứng theo
+		// chỉ số
+		for (int i = 0; i < sizes.size(); i++) {
+			ProductSize productSize = new ProductSize();
+			productSize.setSizes(Integer.parseInt(sizes.get(i)));// Gán kích thước
+			productSize.setQuantity(Integer.parseInt(quantity.get(i))); // Gán số lượng
+			productSize.setId_productsize(id_productsize.get(i)); // Gán id_productsize
+			productSize.setId(id_tablesize.get(i)); // Gán id_tablesize
+			productSizeList.add(productSize);
+		}
+
+		return productSizeList;
 	}
-	
-	
-	//chuyẻn hướng tới sửa
+
+	// chuyẻn hướng tới sửa
 	@GetMapping("/manager-product/edit/{id}")
 	public String showEditForm(@PathVariable("id") long id_product, Model model) {
-	    ProductDTO productDTO = productSv.getProductByIDD(id_product);
-	    
-	    model.addAttribute("categories", categorySv.GetAllCategory());
+		ProductDTO productDTO = productSv.getProductByIDD(id_product);
 
-	    model.addAttribute("productDTO", productDTO);
-	    return "admin/products/edit";
+		model.addAttribute("categories", categorySv.GetAllCategory());
+
+		model.addAttribute("productDTO", productDTO);
+		return "admin/products/edit";
 	}
-	
-	
-		// hiện thị trang chi tiết sản phẩm
-		@GetMapping("/manager-product/product-detail/{id}")
-		public String showFormDetalis(@PathVariable("id") long id_product, Model model) {
-				ProductDTO productDTO = productSv.getProductByIDD(id_product);    
-			    model.addAttribute("categories", categorySv.GetAllCategory());
-			    model.addAttribute("productDTO", productDTO);
-	
-			    return "admin/products/ProductDetails";
-		}
+
+	// hiện thị trang chi tiết sản phẩm
+	@GetMapping("/manager-product/product-detail/{id}")
+	public String showFormDetalis(@PathVariable("id") long id_product, Model model) {
+		ProductDTO productDTO = productSv.getProductByIDD(id_product);
+		model.addAttribute("categories", categorySv.GetAllCategory());
+		model.addAttribute("productDTO", productDTO);
+
+		return "admin/products/ProductDetails";
+	}
 
 	// xóa sản phẩm
-		@RequestMapping(value = "/manager-product/delete/{id}", method = RequestMethod.GET)
-		public String deleteProduct(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
-		    try {
-		        productSv.deleteProduct(id); 
-		        redirectAttributes.addFlashAttribute("message", "Xóa sản phẩm thành công!");
-		    } catch (Exception e) {
-		        redirectAttributes.addFlashAttribute("error", "Xóa sản phẩm thất bại!");
-		    }
-		    return "redirect:/admin/manager-product"; 
+	@RequestMapping(value = "/manager-product/delete/{id}", method = RequestMethod.GET)
+	public String deleteProduct(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+		try {
+			productSv.deleteProduct(id);
+			redirectAttributes.addFlashAttribute("message", "Xóa sản phẩm thành công!");
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("error", "Xóa sản phẩm thất bại!");
 		}
+		return "redirect:/admin/manager-product";
+	}
 
-		//sửa sảm phẩm
-		  @RequestMapping(value = "/manager-product/edit/updateProduct", method = RequestMethod.POST)
-		  public String updateProduct(@RequestParam("id_product") int id_product,
-		          @RequestParam("id_category") int id_category,
-		          @RequestParam("name") String name,
-		          @RequestParam("img") MultipartFile[] img,
-		          @RequestParam("highlight") int highlight,
-		          @RequestParam("new_product") int new_product,
-		          @RequestParam("price") double price,
-		          @RequestParam("sizes") List<String> sizes,
-		          @RequestParam("quantity") List<String> quantity,
-		          @RequestParam("id_productsize") List<Integer> id_productsize,
-		          @RequestParam("id_tablesize") List<Integer> id_tablesize,
-		          @RequestParam("sale") int sale,
-		          @RequestParam("title") String title,
-		          @RequestParam("details") String details,
-		          Model model) throws IOException {
-			  		
+	// sửa sảm phẩm
+	@RequestMapping(value = "/manager-product/edit/updateProduct", method = RequestMethod.POST)
+	public String updateProduct(@RequestParam("id_product") int id_product,
+			@RequestParam("id_category") int id_category, @RequestParam("name") String name,
+			@RequestParam("img") MultipartFile[] img, @RequestParam("highlight") int highlight,
+			@RequestParam("new_product") int new_product, @RequestParam("price") double price,
+			@RequestParam("sizes") List<String> sizes, @RequestParam("quantity") List<String> quantity,
+			@RequestParam("id_productsize") List<Integer> id_productsize,
+			@RequestParam("id_tablesize") List<Integer> id_tablesize, @RequestParam("sale") int sale,
+			@RequestParam("title") String title, @RequestParam("details") String details, Model model)
+			throws IOException {
+
 		// Chuyển đổi dữ liệu từ các tham số thành danh sách ProductSize
 		List<ProductSize> productSizeList = convertToProductSizeList(sizes, quantity, id_productsize, id_tablesize);
-		
+
 		// Gọi service để xử lý cập nhật sản phẩm
-		productSv.updateProduct(id_product, id_category, name, new_product, img, highlight, price, productSizeList, sale, title, details);
-		
+		productSv.updateProduct(id_product, id_category, name, new_product, img, highlight, price, productSizeList,
+				sale, title, details);
+
 		return "redirect:/admin/manager-product";
-		}
-		  
-		  
-		  
-		  //phần tìm theo tên sản phẩm
-		  
-		  
+	}
+	
+
+	
+
+	// phần tìm theo tên sản phẩm
+
 //		//phân trang 
 //			@GetMapping("/manager-product")
 //			public ModelAndView PanigationProducts(
@@ -210,6 +196,5 @@ public class ProductsController extends BaseAdminController {
 //
 //			    return _mvAdmin;
 //			}
-
 
 }

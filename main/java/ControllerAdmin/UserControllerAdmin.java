@@ -4,17 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import AdminDAO.ClientDAO;
 import AdminEntity.Clients;
-import SneakerShop.Entity.Slides;
 
 @Controller
 @RequestMapping("/admin")
@@ -22,21 +16,9 @@ public class UserControllerAdmin extends BaseAdminController{
 	
 	@Autowired
 	ClientDAO clientDao;
-//	
-//	@RequestMapping("/management-client")
-//	public ModelAndView listUser() {
-//		
-//		List<Clients> listUser = clientService.getAllUser();
-//		
-//		_mvAdmin.addObject("clients", listUser);
-//		_mvAdmin.setViewName("admin/Clients/list");
-//		return _mvAdmin;
-//		
-//		
-//	}
 	
 	// chuyểm hướng tới trang sửa
-	@RequestMapping(value="/manager-client/edit/{id}", method=RequestMethod.GET)
+	@GetMapping("/manager-client/edit/{id}")
 	public ModelAndView GetClientsByID(@PathVariable("id") int id) {
 		Clients client = clientService.GetClientByID(id);
 		
@@ -47,7 +29,7 @@ public class UserControllerAdmin extends BaseAdminController{
 	
 	
 	//chức năng sửa khách hàng
-	@RequestMapping(value="/manager-client/edit/updateClient", method = RequestMethod.POST)
+	@PostMapping("/manager-client/edit/updateClient")
 	public String EditClients(@ModelAttribute Clients client) {
 		clientService.EditClients(client);
 		return "redirect:/admin/management-client";
@@ -66,7 +48,6 @@ public class UserControllerAdmin extends BaseAdminController{
 
 	    // Lấy dữ liệu phân trang từ DAO
 	    List<Clients> client = clientDao.getSlideWithPagination(pageNumber, pageSize);
-	    List<Clients> listUser = clientService.getAllUser();
 	    // Đếm tổng số slide để hiển thị số trang và điều hướng phân trang
 	    int totalSlide = clientDao.getTotalSlideCount();
 	    int totalPages = (int) Math.ceil((double) totalSlide / pageSize);

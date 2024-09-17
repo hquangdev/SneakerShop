@@ -11,6 +11,7 @@ import SneakerShop.Entity.Categorys;
 import SneakerShop.Entity.Contact;
 import SneakerShop.Entity.Menus;
 import SneakerShop.Entity.Slides;
+import SneakerShopDAO.CartDAO;
 import SneakerShopDAO.CategorysDAO;
 import SneakerShopDAO.ContactDAO;
 import SneakerShopDAO.MenusDAO;
@@ -34,6 +35,15 @@ public class HomeServiceImpl implements IHomeService {
     
     @Autowired
     private ContactDAO contactDao;
+    
+    @Autowired
+	public CartDAO cartDao;
+
+    @Autowired
+    public CategoryServiceImpl categoryService;
+
+    @Autowired
+    public PaginateServiceImpl paginateService;
     
     @Override
     public List<Slides> GetDataSlide() {

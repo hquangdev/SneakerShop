@@ -40,7 +40,6 @@ public class LoginController extends BaseAdminController{
 	    return _mvAdmin;
 	}
 
- 
     @RequestMapping(value = "/admin/admin-login", method = RequestMethod.POST)
     public String loginAdmin(HttpSession session, @ModelAttribute("admin") Admins admin, Model model) {
         Admins loginAdmin = adminService.checkAdmin(admin);
@@ -53,9 +52,5 @@ public class LoginController extends BaseAdminController{
             return "login";
         }
     }
-
-    
-    
-
 
 }

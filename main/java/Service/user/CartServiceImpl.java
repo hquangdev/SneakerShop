@@ -20,7 +20,6 @@ public class CartServiceImpl implements ICartService {
         return cartDAO.AddCart(id, cart, size, quantity);
     }
 
-    
 
     @Override
     public HashMap<Long, CartDTO> EditCart(long id, int quanty, HashMap<Long, CartDTO> cart) {

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import AdminDAO.ClientDAO;
+import AdminDTO.CustomStatusDTO;
 import AdminEntity.Clients;
 
 @Service
@@ -26,8 +27,22 @@ public class ClientService implements IClients{
 
 	@Override
 	public int EditClients(Clients client) {
-		// TODO Auto-generated method stub
 		return userDao.EditClient(client);
+	}
+
+	@Override
+	public int getTotalNewCustomersForCurrentYear() {
+		return userDao.getTotalNewCustomersForCurrentYear();
+	}
+
+	@Override
+	public int getRepeatCustomerCount() {
+		return userDao.getRepeatCustomerCount();
+	}
+
+	@Override
+	public List<CustomStatusDTO> getCustomerStats() {
+		return userDao.getNewCustomerStats();
 	}
 
 }

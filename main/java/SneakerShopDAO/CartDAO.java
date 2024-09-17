@@ -1,9 +1,6 @@
 package SneakerShopDAO;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +23,14 @@ public class CartDAO extends BaseDAO {
 	    if (product != null) {
 	        if (cart.containsKey(id)) {
 	            itemCart = cart.get(id);
-	            itemCart.setQuanty(quantity); // Cập nhật số lượng từ form
-	            itemCart.setSize(size); // Cập nhật kích thước từ form
-	            itemCart.setTotalPrice(itemCart.getQuanty() * product.getPrice()); // Cập nhật giá
+	            itemCart.setQuanty(quantity);
+	            itemCart.setSize(size); 
+	            itemCart.setTotalPrice(itemCart.getQuanty() * product.getPrice()); 
 	        } else {
 	            itemCart.setProduct(product);
-	            itemCart.setQuanty(quantity); // Sử dụng số lượng từ form
+	            itemCart.setQuanty(quantity); 
 	            itemCart.setSize(size); // Lưu kích thước từ form
-	            itemCart.setTotalPrice(product.getPrice() * quantity); // Tính tổng giá
+	            itemCart.setTotalPrice(product.getPrice() * quantity); 
 	        }
 	        cart.put(id, itemCart);
 	    }

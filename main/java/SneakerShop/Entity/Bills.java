@@ -10,6 +10,7 @@ public class Bills {
 	private int quanty;
 	private String note;
 	private int status;
+	private Long id_client;
 	
 	public Bills() {
 	}
@@ -69,6 +70,14 @@ public class Bills {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public Long getId_client() {
+		return id_client;
+	}
+
+	public void setId_client(Long userId) {
+		this.id_client = userId;
 	}
 
 

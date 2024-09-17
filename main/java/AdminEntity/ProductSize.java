@@ -1,7 +1,5 @@
 package AdminEntity;
 
-import java.util.List;
-
 public class ProductSize {
 	private int id;
 	private long id_productsize;
@@ -28,7 +26,6 @@ public class ProductSize {
 		this.id_productsize = id_productsize;
 	}
 
-	
 	public int getSizes() {
 		return sizes;
 	}
@@ -44,15 +41,11 @@ public class ProductSize {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	
-
 
 	@Override
 	public String toString() {
 		return "ProductSize [id=" + id + ", id_productsize=" + id_productsize + ", sizes=" + sizes + ", quantity="
 				+ quantity + "]";
 	}
-
-	
 
 }

@@ -41,7 +41,7 @@ public class BillsServiceImpl implements IBillsService {
 	        billDetail.setTotal(cartDTO.getTotalPrice());
 	        
 	        // Lấy kích thước từ CartDTO và thiết lập cho BillDetail
-	        billDetail.setSelected_size(cartDTO.getSize()); // Thêm kích thước vào BillDetail
+	        billDetail.setSelected_size(cartDTO.getSize()); 
 
 	        // Thêm chi tiết hóa đơn vào cơ sở dữ liệu
 	        billsDAO.AddBillsDetail(billDetail);

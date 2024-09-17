@@ -5,13 +5,13 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-public class MapperAdmin implements RowMapper<Admins>{ //chuyển dổi csdl thành java truyên vào admin
+public class MapperAdmin implements RowMapper<Admins> { 
 
 	@Override
-	public Admins mapRow(ResultSet rs, int rowNum) throws SQLException {//đại diện cho 1 hàng ketqua truy vấn csdl
+	public Admins mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-		Admins admin = new Admins();  // tạo lớp mới để ánh xạ từ result
-		
+		Admins admin = new Admins(); 
+
 		admin.setId(rs.getInt("id"));
 		admin.setEmail(rs.getString("email"));
 		admin.setUsername(rs.getString("username"));
@@ -19,7 +19,7 @@ public class MapperAdmin implements RowMapper<Admins>{ //chuyển dổi csdl th�
 		admin.setAddress(rs.getString("address"));
 		admin.setPhone(rs.getString("phone"));
 		admin.setRole(rs.getInt("role"));
-		
+
 		return admin;
 	}
 

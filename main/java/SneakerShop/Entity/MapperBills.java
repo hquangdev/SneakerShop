@@ -20,6 +20,8 @@ public class MapperBills implements RowMapper<Bills>{
 		bills.setQuanty(rs.getInt("quanty"));
 		bills.setNote(rs.getString("note"));
 		bills.setStatus(rs.getInt("status"));
+		bills.setId_client(rs.getLong("id_client"));
+
 		return bills;
 	}
 

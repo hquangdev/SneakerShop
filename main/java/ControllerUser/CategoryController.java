@@ -16,23 +16,19 @@ import SneakerShop.DTO.PaginatesDTO;
 @Controller
 public class CategoryController extends BaseController {
 
-    @Autowired
-    private CategoryServiceImpl categoryService;
-
-    @Autowired
-    private PaginateServiceImpl paginateService;
+    
 
     private int totalProductsPage = 9;
 
     @RequestMapping(value = "/san-pham/{id}")
     public ModelAndView category(@PathVariable String id) {
         _mvShare.setViewName("user/product/category");
-        int totalData = categoryService.GetAllProductsByID(Integer.parseInt(id)).size();
-        PaginatesDTO paginateInfo = paginateService.GetInfoPaginates(totalData, totalProductsPage, 1);
+        int totalData = _homService.categoryService.GetAllProductsByID(Integer.parseInt(id)).size();
+        PaginatesDTO paginateInfo = _homService.paginateService.GetInfoPaginates(totalData, totalProductsPage, 1);
         
         _mvShare.addObject("idCategory", id);
         _mvShare.addObject("paginateInfo", paginateInfo);
-        _mvShare.addObject("ProductsPaginate", categoryService.GetDataProductsPaginate(Integer.parseInt(id),paginateInfo.getStart(),totalProductsPage));
+        _mvShare.addObject("ProductsPaginate", _homService.categoryService.GetDataProductsPaginate(Integer.parseInt(id),paginateInfo.getStart(),totalProductsPage));
         return _mvShare;
     }
 
@@ -41,15 +37,15 @@ public class CategoryController extends BaseController {
         _mvShare.setViewName("user/product/category");
 
         // Lấy tất cả sản phẩm theo ID danh mục
-        List<ProductDTO> allProducts = categoryService.GetAllProductsByID(Integer.parseInt(id));
+        List<ProductDTO> allProducts = _homService.categoryService.GetAllProductsByID(Integer.parseInt(id));
 
         int totalData = allProducts.size();
 
         // Lấy thông tin phân trang
-        PaginatesDTO paginateInfo = paginateService.GetInfoPaginates(totalData, totalProductsPage, Integer.parseInt(currentPage));
+        PaginatesDTO paginateInfo = _homService.paginateService.GetInfoPaginates(totalData, totalProductsPage, Integer.parseInt(currentPage));
 
         // Lấy các sản phẩm trong trang hiện tại
-        List<ProductDTO> paginatedProducts = categoryService.GetDataProductsPaginate(Integer.parseInt(id), paginateInfo.getStart(), totalProductsPage);
+        List<ProductDTO> paginatedProducts = _homService.categoryService.GetDataProductsPaginate(Integer.parseInt(id), paginateInfo.getStart(), totalProductsPage);
 
         _mvShare.addObject("idCategory", id);
         _mvShare.addObject("paginateInfo", paginateInfo);

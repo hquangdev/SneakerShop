@@ -10,9 +10,10 @@ public interface IBillService {
 
 	int deleteBill(int id);
 
-
-
 	void updateStatus(long id, int status);
 
 	List<BillDetailDTO> getBillDetailByID(long id_bills);
+	
+	int getTotalShoesInStock();
+	Double getTotalRevenue();
 }
