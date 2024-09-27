@@ -15,7 +15,7 @@ public class MapperBillDetailDTO implements RowMapper<BillDetailDTO> {
         billDetailDTO.setSize(rs.getInt("selected_size")); 
         billDetailDTO.setPrice(rs.getInt("price"));
         billDetailDTO.setUser(rs.getString("user"));
-        billDetailDTO.setPhone(rs.getInt("phone"));
+        billDetailDTO.setPhone(rs.getString("phone"));
         billDetailDTO.setDisplay_name(rs.getString("display_name"));
         billDetailDTO.setAddress(rs.getString("address"));
         billDetailDTO.setTotal(rs.getDouble("total"));

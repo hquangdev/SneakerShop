@@ -7,7 +7,7 @@ public class BillDetailDTO {
 	private int size;
 	private double price;
 	private String user;
-	private int phone;
+	private String phone;
 	private String display_name;
 	private String address;
 	private double total;
@@ -59,11 +59,13 @@ public class BillDetailDTO {
 		this.user = user;
 	}
 
-	public int getPhone() {
+	
+
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 

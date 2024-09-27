@@ -67,7 +67,7 @@
 						<label class="control-label">Email <sup>*</sup></label>
 						<div class="controls">
 							<form:input path="email" placeholder=" Xin mời nhập"/>
-							<form:input path="id"/>
+							<form:hidden path="id"/>
 						</div>
 					</div>
 					<div class="control-group">

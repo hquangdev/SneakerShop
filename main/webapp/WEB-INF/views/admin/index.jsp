@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <div class="page-content">
-	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-	<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-	<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 	<div class="ace-settings-container" id="ace-settings-container">
 		<div class="btn btn-app btn-xs btn-warning ace-settings-btn"
 			id="ace-settings-btn">
@@ -233,45 +235,47 @@
 
 				<div class="hr hr32 hr-dotted"></div>
 				<div class="row">
-			        <div class="col-xs-12">
-			            <div class="widget-box">
-			                <div class="widget-header widget-header-flat widget-header-small">
-			                    <h5 class="widget-title">
-			                        <i class="ace-icon fa fa-users"></i> Bảng thống kê mua hàng của khách hàng
-			                    </h5>
-			                </div>
-			
-			                <div class="widget-body">
-			                    <div class="widget-main">
-			                        <table class="table table-striped table-bordered">
-			                            <thead>
-			                                <tr>
-			                                    <th> ID</th>
-			                                    <th>Họ và tên</th>
-			                                    <th>Tổng hóa đơn</th>
-			                                    <th>Tổng tiền</th>
-			                                </tr>
-			                            </thead>
-			                            <tbody>
-			                                <c:forEach var="stat" items="${customerStats}">
-			                                    <tr>
-			                                        <td>${stat.customerId}</td>
-			                                        <td>${stat.customerName}</td>
-			                                        <td>${stat.totalOrders}</td>
-			                                        <td> <fmt:formatNumber>${stat.totalAmount}</fmt:formatNumber></td>
-			                                    </tr>
-			                                </c:forEach>
-			                            </tbody>
-			                        </table>
-			                    </div>
-			                </div>
-			            </div>
-			        </div>
-			    </div>
+					<div class="col-xs-12">
+						<div class="widget-box">
+							<div class="widget-header widget-header-flat widget-header-small">
+								<h5 class="widget-title">
+									<i class="ace-icon fa fa-users"></i> Bảng thống kê mua hàng của
+									khách hàng
+								</h5>
+							</div>
 
+							<div class="widget-body">
+								<div class="widget-main">
+									<table class="table table-striped table-bordered">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>Họ và tên</th>
+												<th>Tổng hóa đơn</th>
+												<th>Tổng tiền</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="stat" items="${customerStats}">
+												<tr>
+													<td>${stat.customerId}</td>
+													<td>${stat.customerName}</td>
+													<td>${stat.totalOrders}</td>
+													<td><fmt:formatNumber>${stat.totalAmount}</fmt:formatNumber></td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- /.col -->
 		</div>
-		<!-- /.col -->
+		<!-- /.row -->
 	</div>
-	<!-- /.row -->
 </div>
 <!-- /.page-content -->
